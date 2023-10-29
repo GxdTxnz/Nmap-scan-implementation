@@ -22,7 +22,8 @@ def output(a):
             'scan_func': lambda port: tcp_syn_scan(target_host, port),
             'description': "TCP SYN сканирование завершено.",
             'open_ports_label': "открытых",
-            'closed_ports_label': "закрытых"
+            'closed_ports_label': "закрытых",
+            'filtered_ports_label': "фильтруемых"
         },
         '2': {
             'name': "TCP Connect",
@@ -58,12 +59,19 @@ def output(a):
         if 'open_or_filtered_ports_label' in scan_type:
             open_or_filtered_ports_label = scan_type['open_or_filtered_ports_label']
 
+        if 'filtered_ports_label' in scan_type:
+            filtered_ports_label = scan_type['filtered_ports_label']
+
         for port in range(start_port, end_port + 1):
             scan_func(port)
 
         print(f"\n{scan_name} сканирование завершено.\n")
         print(f"Общее количество {open_ports_label} портов: {len(open_ports)}")
         print(f"Список {open_ports_label} портов: {open_ports}")
+
+        if 'filtered_ports_label' in scan_type:
+            print(f"Общее количество {filtered_ports_label} портов: {len(filtered_ports_label)}")
+            print(f"Список {filtered_ports_label} портов: {filtered_ports}")
 
         if 'open_or_filtered_ports_label' in scan_type:
             print(f"Общее количество {open_or_filtered_ports_label} портов: {len(open_or_filtered_ports)}")
