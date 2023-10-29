@@ -30,7 +30,8 @@ def output(a):
             'scan_func': lambda port: tcp_connect_scan(target_host, port),
             'description': "TCP Connect сканирование завершено.",
             'open_ports_label': "открытых",
-            'closed_ports_label': "закрытых"
+            'closed_ports_label': "закрытых",
+            'filtered_ports_label': "фильтруемых"
         },
         '3': {
             'name': "TCP ACK",
