@@ -5,7 +5,7 @@ from tcp_ACK_scan import tcp_ack_scan
 from tcp_CON_scan import tcp_connect_scan
 from tcp_SYN_scan import tcp_syn_scan
 from udp_scans import udp_scan
-#from mac import get_mac_address
+from mac import get_mac_address
 from params import *
 
 
@@ -67,12 +67,13 @@ def output(a):
         for port in range(start_port, end_port + 1):
             scan_func(port)
 
+        get_mac_address(target_host)
         print(f"\n{scan_name} сканирование завершено.\n")
         print(f"Общее количество {open_ports_label} портов: {len(open_ports)}")
         print(f"Список {open_ports_label} портов: {open_ports}")
 
         if 'filtered_ports_label' in scan_type:
-            print(f"Общее количество {filtered_ports_label} портов: {len(filtered_ports_label)}")
+            print(f"Общее количество {filtered_ports_label} портов: {len(filtered_ports)}")
             print(f"Список {filtered_ports_label} портов: {filtered_ports}")
 
         if 'open_or_filtered_ports_label' in scan_type:
@@ -84,18 +85,12 @@ def output(a):
     else:
         print()
 
+    
+
 
 def main():
     print("Представлены следующие типы сканирования:\n1 - TCP SYN Scan\n2 - TCP Connect Scan\n3 - TCP ACK Scan\n4 - UDP Scan\n5 - Все сразу")
     a = input("Выберите один из них: ")
-
-    '''
-        mac_address = get_mac_address(target_host)
-    if mac_address:
-        print(f"MAC адресс {target_host}: {mac_address}\n")  #доделать вывод mac
-    else:
-        print(f"MAC адрес {taget_host} не был получен\n")
-'''
     output(a)
 
 
