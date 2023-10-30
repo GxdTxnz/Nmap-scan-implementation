@@ -5,6 +5,7 @@ from tcp_ACK_scan import tcp_ack_scan
 from tcp_CON_scan import tcp_connect_scan
 from tcp_SYN_scan import tcp_syn_scan
 from udp_scans import udp_scan
+#from mac import get_mac_address
 from params import *
 
 
@@ -87,6 +88,14 @@ def output(a):
 def main():
     print("Представлены следующие типы сканирования:\n1 - TCP SYN Scan\n2 - TCP Connect Scan\n3 - TCP ACK Scan\n4 - UDP Scan\n5 - Все сразу")
     a = input("Выберите один из них: ")
+
+    '''
+        mac_address = get_mac_address(target_host)
+    if mac_address:
+        print(f"MAC адресс {target_host}: {mac_address}\n")  #доделать вывод mac
+    else:
+        print(f"MAC адрес {taget_host} не был получен\n")
+'''
     output(a)
 
 

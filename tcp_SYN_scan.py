@@ -2,7 +2,6 @@ import socket
 from scapy.all import *
 from params import *
 
-
 def tcp_syn_scan(target_host, port):
     global open_ports, closed_ports, filtered_ports
 
@@ -31,5 +30,6 @@ def tcp_syn_scan(target_host, port):
     else:
         filtered_ports.append(port)
         print(f"{port}/tcp: Фильтруемый ({service})")
+
         
 
