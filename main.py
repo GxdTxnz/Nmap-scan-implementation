@@ -46,6 +46,7 @@ def output(a):
             'scan_func': lambda port: udp_scan(target_host, port),
             'description': "UDP сканирование завершено.",
             'open_ports_label': "открытых",
+            'filtered_ports_label': "фильтруемых",
             'open_or_filtered_ports_label': "открытых/фильтруемых",
             'closed_ports_label': "закрытых"
         }
