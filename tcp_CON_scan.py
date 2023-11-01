@@ -1,46 +1,6 @@
-import socket
 from scapy.all import *
 from params import *
-
-
-
-def load_nmap_services():
-    nmap_services = {}
-    try:
-        with open('/usr/share/nmap/nmap-services', 'r') as file:
-            for line in file:
-                if not line.startswith('#') and '/' in line:
-                    parts = line.split()
-                    service, port_protocol = parts[0], parts[1]
-                    port, protocol = port_protocol.split('/')
-                    if protocol == 'tcp':
-                        nmap_services[int(port)] = service
-        return nmap_services
-    except Exception as e:
-        print(f"Ошибка при загрузке nmap-services: {e}")
-        return {}
-
-
-def guess_service(target_host, port):
-    nmap_services = load_nmap_services()
-
-    # Проверить, есть ли порт в базе данных nmap-services
-    if port in nmap_services:
-        return nmap_services[port]
-
-    # Если нет, попробуем отправить HTTP GET запрос и проверить наличие HTTP-ответа
-    request = IP(dst=target_host)/TCP(dport=port, flags="S")
-    response = sr1(request, timeout=1, verbose=0)
-
-    if response is not None:
-        if response.haslayer(HTTP):
-            return "HTTP"
-        elif response.haslayer(TCP) and response.getlayer(TCP).flags == 0x12:
-            return "unknown"
-        else:
-            return "фильтруемый"
-    else:
-        return "фильтруемый"
+from service import *
 
 
 def tcp_connect_scan(target_host, port):
@@ -50,11 +10,7 @@ def tcp_connect_scan(target_host, port):
     tcp_packet = TCP(dport=port, flags="S")
     packet = ip_packet / tcp_packet
     response = sr1(packet, timeout=1, verbose=0)
-
-    try:
-        service = socket.getservbyport(port, 'tcp')
-    except socket.error:
-        service = "unknown"
+    service = guess_service(target_host, port)
 
     if response is not None and response.haslayer(TCP):
         if response.getlayer(TCP).flags == 0x12:
@@ -65,5 +21,4 @@ def tcp_connect_scan(target_host, port):
             print(f"{port}/tcp: Закрыт ({service})")
     elif response is None:
         filtered_ports.append(port)
-        service = guess_service(target_host, port)
         print(f"{port}/tcp: Фильтруемый ({service})")
