@@ -38,8 +38,8 @@ def output(a):
             'name': "TCP ACK",
             'scan_func': lambda port: tcp_ack_scan(target_host, port),
             'description': "TCP ACK сканирование завершено.",
-            'open_ports_label': "нефильтруемых",
-            'closed_ports_label': "фильтруемых"
+            'unfiltered_label': "нефильтруемых",
+            'filtered_ports_label': "фильтруемых"
         },
         '4': {
             'name': "UDP",
@@ -65,6 +65,9 @@ def output(a):
         if 'filtered_ports_label' in scan_type:
             filtered_ports_label = scan_type['filtered_ports_label']
 
+        if 'unfiltered_label' in scan_type:
+            filtered_ports_label = scan_type['unfiltered_label']
+
         for port in range(start_port, end_port + 1):
             scan_func(port)
 
@@ -76,6 +79,10 @@ def output(a):
         if 'filtered_ports_label' in scan_type:
             print(f"Общее количество {filtered_ports_label} портов: {len(filtered_ports)}")
             print(f"Список {filtered_ports_label} портов: {filtered_ports}")
+
+        if 'unfiltered_label' in scan_type:
+            print(f"Общее количество {unfiltered_label} портов: {len(unfiltered)}")
+            print(f"Список {unfiltered_label} портов: {unfiltered}")        
 
         if 'open_or_filtered_ports_label' in scan_type:
             print(f"Общее количество {open_or_filtered_ports_label} портов: {len(open_or_filtered_ports)}")
