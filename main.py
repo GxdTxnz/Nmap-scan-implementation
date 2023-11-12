@@ -5,6 +5,7 @@ from tcp_ACK_scan import tcp_ack_scan
 from tcp_CON_scan import tcp_connect_scan
 from tcp_SYN_scan import tcp_syn_scan
 from udp_scans import udp_scan
+from sctp_INIT_scan import sctp_init_scan
 from mac import get_mac_address
 from params import *
 
@@ -49,6 +50,14 @@ def output(a):
             'filtered_ports_label': "фильтруемых",
             'open_or_filtered_ports_label': "открытых/фильтруемых",
             'closed_ports_label': "закрытых"
+        },
+        '5': {
+            'name': "SCTP INIT",
+            'scan_func': lambda port: sctp_init_scan(target_host, port),
+            'description': "SCTP INIT сканирование завершено.",
+            'open_ports_label': "открытых",
+            'closed_ports_label': "закрытых",
+            'filtered_ports_label': "фильтруемых"
         }
     }
 
@@ -90,7 +99,7 @@ def output(a):
 
 
 def main():
-    print("Представлены следующие типы сканирования:\n1 - TCP SYN Scan\n2 - TCP Connect Scan\n3 - TCP ACK Scan\n4 - UDP Scan\n5 - Все сразу")
+    print("Представлены следующие типы сканирования:\n1 - TCP SYN Scan\n2 - TCP Connect Scan\n3 - TCP ACK Scan\n4 - UDP Scan\n5 - SCTP INIT scan")
     a = input("Выберите один из них: ")
     output(a)
 
