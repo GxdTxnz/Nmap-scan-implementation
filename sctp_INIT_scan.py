@@ -7,7 +7,7 @@ def sctp_init_scan(target_host, port):
     global open_ports, closed_ports, filtered_ports
     
     ip_packet = IP(dst=target_host)
-    sctp_packet = SCTP(dport=port, sctpchunktypescls=2)
+    sctp_packet = SCTP(dport=port)
     packet = ip_packet / sctp_packet
     response = sr1(packet, timeout=2, verbose=0)
     service = guess_service(target_host, port)
