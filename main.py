@@ -66,7 +66,7 @@ def output(a):
             filtered_ports_label = scan_type['filtered_ports_label']
 
         if 'unfiltered_label' in scan_type:
-            filtered_ports_label = scan_type['unfiltered_label']
+            unfiltered_label = scan_type['unfiltered_label']
 
         for port in range(start_port, end_port + 1):
             scan_func(port)
