@@ -8,7 +8,7 @@ def sctp_init_scan(target_host, port):
     
     ip_packet = IP(dst=target_host)
     sctp_packet = SCTP(dport=port)
-    packet = ip_packet / sctp_packet
+    packet = ip_packet / sctp_packet / SCTPChunkInit()
     response = sr1(packet, timeout=2, verbose=0)
     service = guess_service(target_host, port)
     
