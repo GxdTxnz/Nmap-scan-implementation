@@ -5,6 +5,7 @@ from tcp_ACK_scan import tcp_ack_scan
 from tcp_CON_scan import tcp_connect_scan
 from tcp_SYN_scan import tcp_syn_scan
 from udp_scans import udp_scan
+from sctp_COOKIE_scan import sctp_ce_scan
 from mac import get_mac_address
 from params import *
 
@@ -46,6 +47,14 @@ def output(a):
             'scan_func': lambda port: udp_scan(target_host, port),
             'description': "UDP сканирование завершено.",
             'open_ports_label': "открытых",
+            'filtered_ports_label': "фильтруемых",
+            'open_or_filtered_ports_label': "открытых/фильтруемых",
+            'closed_ports_label': "закрытых"
+        },
+        '6': {
+            'name': "SCTP COOKIE ECHO",
+            'scan_func': lambda port: sctp_ce_scan(target_host, port),
+            'description': "SCTP COOKIE ECHO сканирование завершено.",
             'filtered_ports_label': "фильтруемых",
             'open_or_filtered_ports_label': "открытых/фильтруемых",
             'closed_ports_label': "закрытых"
@@ -97,7 +106,7 @@ def output(a):
 
 
 def main():
-    print("Представлены следующие типы сканирования:\n1 - TCP SYN Scan\n2 - TCP Connect Scan\n3 - TCP ACK Scan\n4 - UDP Scan\n5 - Все сразу")
+    print("Представлены следующие типы сканирования:\n1 - TCP SYN Scan\n2 - TCP Connect Scan\n3 - TCP ACK Scan\n4 - UDP Scan\n6 - SCTP COOKIE ECHO Scan")
     a = input("Выберите один из них: ")
     output(a)
 
