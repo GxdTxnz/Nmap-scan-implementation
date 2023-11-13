@@ -1,8 +1,8 @@
 from scapy.all import *
 from params import *
 from service import *
-from scapy import IP    #comment for linux version
-from scapy.layers.sctp import * #comment for linux version
+#from scapy import IP    #comment for linux version
+#from scapy.layers.sctp import * #comment for linux version
 
 
 def sctp_ce_scan(target_host, port):
@@ -11,7 +11,7 @@ def sctp_ce_scan(target_host, port):
     ip_packet = IP(dst=target_host)
     sctp_packet = SCTP(dport=port)
     packet = ip_packet / sctp_packet / SCTPChunkCookieEcho()
-    response = sr1(packet, timeout=2, verbose=0)
+    response = sr1(packet, timeout=1, verbose=0)
     service = guess_service(target_host, port)
 
     if response is not None:

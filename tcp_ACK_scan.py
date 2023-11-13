@@ -22,7 +22,6 @@ def tcp_ack_scan(target_host, port):
             unfiltered.append(port)
             print(f"{port}/tcp: Нефильтруемый ({service})")
     else:
-        unfiltered.append(port)
         filtered_ports.append(port)
         print(f"{port}/tcp: Фильтруемый ({service})")        
 
