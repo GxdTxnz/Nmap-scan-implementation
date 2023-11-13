@@ -66,7 +66,6 @@ def output(a):
         scan_name = scan_type['name']
         scan_func = scan_type['scan_func']
 
-
         if 'open_ports_label' in scan_type:
             open_ports_label = scan_type['open_ports_label']
 
@@ -88,9 +87,6 @@ def output(a):
         get_mac_address(target_host)
 
         print(f"\n{scan_name} сканирование завершено.\n")
-        
-        #print(f"Общее количество {open_ports_label} портов: {len(open_ports)}")
-        #print(f"Список {open_ports_label} портов: {open_ports}")
 
         if 'open_ports_label' in scan_type:
             print(f"Общее количество {open_ports_label} портов: {len(open_ports)}")
@@ -111,12 +107,8 @@ def output(a):
             print(f"Общее количество {open_or_filtered_ports_label} портов: {len(open_or_filtered_ports)}")
             print(f"Список {open_or_filtered_ports_label} портов: {open_or_filtered_ports}")
 
-        #print(f"Общее количество {closed_ports_label} портов: {closed_ports}")
-
     else:
         print()
-
-    
 
 
 def main():

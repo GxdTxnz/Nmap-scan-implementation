@@ -1,8 +1,8 @@
 from scapy.all import *
 from params import *
 from service import *
-#from scapy import IP    #comment for linux version
-#from scapy.layers.sctp import * #comment for linux version
+#from scapy import IP    #uncomment for windows version
+#from scapy.layers.sctp import * #uncomment for windows version
 
 
 def sctp_ce_scan(target_host, port):
