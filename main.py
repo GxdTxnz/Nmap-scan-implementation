@@ -6,6 +6,7 @@ from tcp_CON_scan import tcp_connect_scan
 from tcp_SYN_scan import tcp_syn_scan
 from udp_scans import udp_scan
 from sctp_INIT_scan import sctp_init_scan
+from sctp_COOKIE_scan import sctp_ce_scan
 from mac import get_mac_address
 from params import *
 
@@ -39,8 +40,8 @@ def output(a):
             'name': "TCP ACK",
             'scan_func': lambda port: tcp_ack_scan(target_host, port),
             'description': "TCP ACK сканирование завершено.",
-            'open_ports_label': "нефильтруемых",
-            'closed_ports_label': "фильтруемых"
+            'unfiltered_label': "нефильтруемых",
+            'filtered_ports_label': "фильтруемых"
         },
         '4': {
             'name': "UDP",
@@ -58,6 +59,13 @@ def output(a):
             'open_ports_label': "открытых",
             'closed_ports_label': "закрытых",
             'filtered_ports_label': "фильтруемых"
+        '6': {
+            'name': "SCTP COOKIE ECHO",
+            'scan_func': lambda port: sctp_ce_scan(target_host, port),
+            'description': "SCTP COOKIE ECHO сканирование завершено.",
+            'filtered_ports_label': "фильтруемых",
+            'open_or_filtered_ports_label': "открытых/фильтруемых",
+            'closed_ports_label': "закрытых"
         }
     }
 
@@ -94,6 +102,7 @@ def output(a):
 
         if 'closed_ports_label' in scan_type:
             print(f"Общее количество {open_ports_label} портов: {closed_ports}")
+            print(f"Общее количество {closed_ports_label} портов: {closed_ports}")
 
         if 'filtered_ports_label' in scan_type:
             print(f"Общее количество {filtered_ports_label} портов: {len(filtered_ports)}")
@@ -110,9 +119,9 @@ def output(a):
     else:
         print()
 
-        
+
 def main():
-    print("Представлены следующие типы сканирования:\n1 - TCP SYN Scan\n2 - TCP Connect Scan\n3 - TCP ACK Scan\n4 - UDP Scan\n5 - SCTP INIT scan")
+    print("Представлены следующие типы сканирования:\n1 - TCP SYN Scan\n2 - TCP Connect Scan\n3 - TCP ACK Scan\n4 - UDP Scan\n6 - SCTP COOKIE ECHO Scan")
     a = input("Выберите один из них: ")
     output(a)
 
