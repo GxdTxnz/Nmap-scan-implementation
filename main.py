@@ -97,7 +97,7 @@ def output(a):
             print(f"Список {open_ports_label} портов: {open_ports}")
 
         if 'closed_ports_label' in scan_type:
-            print(f"Общее количество {open_ports_label} портов: {closed_ports}")
+            print(f"Общее количество {closed_ports_label} портов: {closed_ports}")
 
         if 'filtered_ports_label' in scan_type:
             print(f"Общее количество {filtered_ports_label} портов: {len(filtered_ports)}")
