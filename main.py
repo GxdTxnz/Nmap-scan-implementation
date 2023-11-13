@@ -59,6 +59,7 @@ def output(a):
             'open_ports_label': "открытых",
             'closed_ports_label': "закрытых",
             'filtered_ports_label': "фильтруемых"
+        },
         '6': {
             'name': "SCTP COOKIE ECHO",
             'scan_func': lambda port: sctp_ce_scan(target_host, port),
@@ -101,7 +102,6 @@ def output(a):
             print(f"Список {open_ports_label} портов: {open_ports}")
 
         if 'closed_ports_label' in scan_type:
-            print(f"Общее количество {open_ports_label} портов: {closed_ports}")
             print(f"Общее количество {closed_ports_label} портов: {closed_ports}")
 
         if 'filtered_ports_label' in scan_type:
@@ -121,7 +121,7 @@ def output(a):
 
 
 def main():
-    print("Представлены следующие типы сканирования:\n1 - TCP SYN Scan\n2 - TCP Connect Scan\n3 - TCP ACK Scan\n4 - UDP Scan\n6 - SCTP COOKIE ECHO Scan")
+    print("Представлены следующие типы сканирования:\n1 - TCP SYN Scan\n2 - TCP Connect Scan\n3 - TCP ACK Scan\n4 - UDP Scan\n5 - SCTP INIT Scan\n6 - SCTP COOKIE ECHO Scan")
     a = input("Выберите один из них: ")
     output(a)
 
