@@ -31,7 +31,7 @@ def output(scan_type):
             'name': "TCP ACK",
             'func': tcp_ack_scan
         },
-        'sY': {
+        'sU': {
             'name': "UDP",
             'func': udp_scan
         },
