@@ -7,7 +7,9 @@ def udp_scan(target_host, port, retries=6):
     ip_packet = IP(dst=target_host)
     udp_packet = UDP(dport=port)
     packet = ip_packet / udp_packet
+    
     responses = []
+    
     for _ in range(retries):
         response = sr1(packet, timeout=2, verbose=0)
         if response is not None:
