@@ -19,23 +19,27 @@ def output(scan_type):
     initial_start()
 
     scan_functions = {
-        'sS': {
+        '-sS': {
             'name': "TCP SYN",
             'func': tcp_syn_scan
         },
-        'sT': {
+        '-sT': {
             'name': "TCP Connect",
             'func': tcp_connect_scan
         },
-        'sA': {
+        '-sA': {
             'name': "TCP ACK",
             'func': tcp_ack_scan
         },
-        'sU': {
+        '-sU': {
             'name': "UDP",
             'func': udp_scan
         },
-        'sZ': {
+        '-sY': {
+            'name': "SCTP INIT",
+            'func': sctp_init_scan
+        },
+        '-sZ': {
             'name': "SCTP COOKIE ECHO",
             'func': sctp_ce_scan
         }
@@ -50,19 +54,20 @@ def output(scan_type):
             scan_func(target_host, port)
 
         get_mac_address(target_host)
+        
         print(f"\n{scan_name} сканирование завершено.\n")
         print(f"Общее количество открытых портов: {len(open_ports)}")
         print(f"Список открытых портов: {open_ports}")
 
-        if scan_type == 'sU':
+        if scan_type == '-sU':
             print(f"Общее количество фильтруемых портов: {len(filtered_ports)}")
             print(f"Список фильтруемых портов: {filtered_ports}")
 
-        if scan_type == 'sA':
+        if scan_type == '-sA':
             print(f"Общее количество нефильтруемых портов: {len(unfiltered)}")
             print(f"Список нефильтруемых портов: {unfiltered}")
 
-        if scan_type == 'sU':
+        if scan_type == '-sU':
             print(f"Общее количество открытых/фильтруемых портов: {len(open_or_filtered_ports)}")
             print(f"Список открытых/фильтруемых портов: {open_or_filtered_ports}")
 
@@ -73,7 +78,7 @@ def output(scan_type):
 
 def main():
     parser = argparse.ArgumentParser(description="Network Scanner")
-    parser.add_argument("scan_type", choices=['sS', 'sT', 'sA', 'sU', 'sZ'], help="Type of scan (1 - TCP SYN, 2 - TCP Connect, 3 - TCP ACK, 4 - UDP, 6 - SCTP COOKIE ECHO)")
+    parser.add_argument("scan_type", choices=['-sS', '-sT', '-sA', '-sU', '-sZ'], help="Type of scan (sS - TCP SYN, sT - TCP Connect, sA - TCP ACK, sU - UDP, sY - SCTP INIT, sZ - SCTP COOKIE ECHO)")
     args = parser.parse_args()
     output(args.scan_type)
 
