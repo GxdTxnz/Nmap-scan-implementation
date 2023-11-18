@@ -12,12 +12,14 @@ def tcp_syn_scan(target_host, port):
     response = sr1(packet, timeout=1, verbose=0)
     service = guess_service(target_host, port)
 
-    has_tcp_layer = response.haslayer(TCP)
-    has_icmp_layer = response.haslayer(ICMP)
-    tcp_layer = response.getlayer(TCP) if has_tcp_layer else None
-    icmp_layer = response.getlayer(ICMP) if has_icmp_layer else None
+    
 
     if response is not None:
+        has_tcp_layer = response.haslayer(TCP)
+        has_icmp_layer = response.haslayer(ICMP)
+        tcp_layer = response.getlayer(TCP) if has_tcp_layer else None
+        icmp_layer = response.getlayer(ICMP) if has_icmp_layer else None
+        
         if has_tcp_layer and tcp_layer.flags == 0x12:
             open_ports.append(port)
             print(f"{port}/tcp открыт      {service}")
