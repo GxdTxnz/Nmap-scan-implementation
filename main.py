@@ -20,6 +20,15 @@ SCAN_FUNCTIONS = {
     'Z': sctp_ce_scan
 }
 
+SCAN_HEADERS = {
+    'S': "ПОРТ    СТАТУС      СЕРВИС",
+    'T': "ПОРТ    СТАТУС      СЕРВИС",
+    'A': "ПОРТ    СТАТУС        СЕРВИС",
+    'U': "ПОРТ    СТАТУС             СЕРВИС",
+    'Y': "ПОРТ     СТАТУС      СЕРВИС",
+    'Z': "ПОРТ     СТАТУС             СЕРВИС"
+}
+
 def parse_ports(port_arg):
     ports = []
     port_ranges = port_arg.split(',')
@@ -33,8 +42,8 @@ def parse_ports(port_arg):
 
     return ports
 
-def scan_ports(target_host, target_ports, scan_function):
-    print(f"ПОРТ    СТАТУС      СЕРВИС")
+def scan_ports(target_host, target_ports, scan_function, scan_header):
+    print(scan_header)
     for port in target_ports:
         scan_function(target_host, port)
 
@@ -54,7 +63,8 @@ def main():
     date_and_time()
 
     if args.scan_type:
-        scan_ports(args.target_host, target_ports, SCAN_FUNCTIONS[args.scan_type])
+        scan_header = SCAN_HEADERS.get(args.scan_type, "ПОРТ    СТАТУС      СЕРВИС")
+        scan_ports(args.target_host, target_ports, SCAN_FUNCTIONS[args.scan_type], scan_header)
     else:
         print("Выберите тип сканирования из доступных")
 
