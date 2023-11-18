@@ -13,7 +13,6 @@ from date_reg import *
 
 
 def parse_ports(port_arg):
-
     ports = []
     port_ranges = port_arg.split(',')
 
@@ -27,12 +26,10 @@ def parse_ports(port_arg):
     return ports
 
 def main():
-    date_and_time()
-
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("target_host")
     parser.add_argument("-p", "--ports")
-    parser.add_argument("-sS", "--tcp_syn_scan", action="store_true", help="Boom")
+    parser.add_argument("-sS", "--tcp_syn_scan", action="store_true", help="")
     parser.add_argument("-sT", "--tcp_connect_scan", action="store_true")
     parser.add_argument("-sA", "--tcp_ack_scan", action="store_true")
     parser.add_argument("-sU", "--udp_scan", action="store_true")
@@ -46,6 +43,18 @@ def main():
         return
 
     target_ports = parse_ports(args.ports)
+    date_and_time()
+
+    if args.sctp_cookie_echo_scan:
+        print("ПОРТ     СТАТУС             СЕРВИС")
+    elif args.sctp_init_scan:
+        print("ПОРТ     СТАТУС      СЕРВИС")
+    elif args.udp_scan:
+        print("ПОРТ    СТАТУС             СЕРВИС")
+    elif args.tcp_ack_scan:
+        print("ПОРТ    СТАТУС        СЕРВИС")
+    else:
+        print("ПОРТ    СТАТУС      СЕРВИС")
     
     for port in target_ports:
         if args.tcp_syn_scan:

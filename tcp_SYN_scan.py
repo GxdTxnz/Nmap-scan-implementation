@@ -15,15 +15,15 @@ def tcp_syn_scan(target_host, port):
     if response is not None:
         if response.haslayer(TCP) and response.getlayer(TCP).flags == 0x12:
             open_ports.append(port)
-            print(f"{port}/tcp: Открыт ({service})")
+            print(f"{port}/tcp открыт      {service}")
         elif response.haslayer(TCP) and response.getlayer(TCP).flags == 0x14:
             closed_ports += 1
-            print(f"{port}/tcp: Закрыт ({service})")
+            print(f"{port}/tcp закрыт      {service}")
         elif response.haslayer(ICMP) and response.getlayer(ICMP).type == 3 and response.getlayer(ICMP).code in [1, 2, 3, 9, 10, 13]:
             filtered_ports.append(port)
-            print(f"{port}/tcp: Фильтруемый ({service})")
+            print(f"{port}/tcp фильтруемый {service}")
         else:
-            print(f"{port}/tcp: Неизвестный ответ ({service})")
+            print(f"{port}/tcp неизвестный ответ {service}")
     else:
         filtered_ports.append(port)
-        print(f"{port}/tcp: Фильтруемый ({service})")
+        print(f"{port}/tcp фильтруемый {service}")
