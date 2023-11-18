@@ -2,6 +2,7 @@
 
 #from scapy.all import *
 
+import argparse
 from tcp_ACK_scan import *
 from tcp_CON_scan import *
 from tcp_SYN_scan import *
@@ -28,6 +29,7 @@ def parse_ports(port_arg):
     return ports
 
 def main():
+    date_and_time()
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("target_host")
     parser.add_argument("-p", "--ports")
@@ -46,7 +48,7 @@ def main():
 
     target_ports = parse_ports(args.ports)
     
-    date_and_time()
+    
 
     for port in target_ports:
         if args.tcp_syn_scan:

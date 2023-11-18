@@ -13,4 +13,3 @@ def date_and_time():
     format_time = current_time.strftime("%d-%m-%Y %H:%M %Z")
     print(f"Сканирование начато в {format_time} {city}")
 
-date_and_time()
