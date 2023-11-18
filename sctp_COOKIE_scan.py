@@ -25,10 +25,3 @@ def sctp_ce_scan(target_host, port):
     else:
         open_or_filtered_ports.append(port)
         print(f"{port}/sctp открыт|фильтруемый {service}")
-
-
-'''
-ПОРТ    СТАТУС             СЕРВИС
-139/udp закрыт             net-bios
-140/udp открыт|фильтруемый net-bios
-'''

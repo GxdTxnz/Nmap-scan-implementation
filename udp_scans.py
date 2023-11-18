@@ -29,7 +29,3 @@ def udp_scan(target_host, port, retries=6):
     else:
         open_or_filtered_ports.append(port)
         print(f"{port}/udp открыт|Фильтруемый {service}")
-'''
-ПОРТ    СТАТУС             СЕРВИС
-130/udp открыт|фильтруемый net-bios
-'''
