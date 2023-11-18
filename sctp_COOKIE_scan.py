@@ -1,8 +1,6 @@
 from scapy.all import *
 from params import *
 from service import *
-#from scapy import IP    #uncomment for windows version
-#from scapy.layers.sctp import * #uncomment for windows version
 
 
 def sctp_ce_scan(target_host, port):
@@ -20,10 +18,10 @@ def sctp_ce_scan(target_host, port):
             print(f"{port}/sctp: Закрыт ({service})")
         elif SCTPChunkCookieEcho in response:
             open_or_filtered_ports.append(port)
-            print(f"{port}/sctp: Открыт | Фильтруемый ({service})")
+            print(f"{port}/sctp: Открыт|Фильтруемый ({service})")
         else:
-            filtered_ports.append(port)
-            print(f"{port}/sctp: Фильтруемый ({service})")
+            open_or_filtered_ports.append(port)
+            print(f"{port}/sctp: Открыт|Фильтруемый ({service})")
     else:
         open_or_filtered_ports.append(port)
-        print(f"{port}/sctp: Открыт | Фильтруемый ({service})")
+        print(f"{port}/sctp: Открыт|Фильтруемый ({service})")

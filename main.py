@@ -1,16 +1,28 @@
 #!/usr/bin/python3
 
-import argparse
 from scapy.all import *
-from tcp_ACK_scan import tcp_ack_scan
-from tcp_CON_scan import tcp_connect_scan
-from tcp_SYN_scan import tcp_syn_scan
-from udp_scans import udp_scan
-from sctp_INIT_scan import sctp_init_scan
-from sctp_COOKIE_scan import sctp_ce_scan
-from mac import get_mac_address
+import argparse
+import datetime
+import pytz
+import geocoder
+
+from tcp_ACK_scan import *
+from tcp_CON_scan import *
+from tcp_SYN_scan import *
+from udp_scans import *
+from sctp_INIT_scan import *
+from sctp_COOKIE_scan import *
+from mac import *
 from params import *
 
+
+def date_and_time():
+    location = geocoder.ip('me')
+    city = location.city
+    tz = pytz.timezone(location.timezone)
+    current_time = datetime.datetime.now(tz)
+    format_time = current_time.strftime("%d-%m-%Y %H: %M %Z")
+    print(f"Сканирование начато в {format_time} {city}")   
 
 def parse_ports(port_arg):
 
@@ -29,7 +41,6 @@ def parse_ports(port_arg):
 def main():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("target_host")
-
     parser.add_argument("-p", "--ports")
     parser.add_argument("-sS", "--tcp_syn_scan", action="store_true", help="Boom")
     parser.add_argument("-sT", "--tcp_connect_scan", action="store_true")
