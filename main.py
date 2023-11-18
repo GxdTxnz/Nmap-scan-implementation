@@ -63,7 +63,7 @@ def main():
         else:
             print("Выберите тип сканирования из доступных")
             
-        get_mac_address(args.target_host)
+    get_mac_address(args.target_host)
 
 if __name__ == "__main__":
     main()
