@@ -9,8 +9,16 @@ from sctp_INIT_scan import *
 from sctp_COOKIE_scan import *
 from mac import *
 from params import *
-from date_reg import *  
+from date_reg import *
 
+SCAN_FUNCTIONS = {
+    'S': tcp_syn_scan,
+    'T': tcp_connect_scan,
+    'A': tcp_ack_scan,
+    'U': udp_scan,
+    'Y': sctp_init_scan,
+    'Z': sctp_ce_scan
+}
 
 def parse_ports(port_arg):
     ports = []
@@ -25,16 +33,16 @@ def parse_ports(port_arg):
 
     return ports
 
+def scan_ports(target_host, target_ports, scan_function):
+    print(f"ПОРТ    СТАТУС      СЕРВИС")
+    for port in target_ports:
+        scan_function(target_host, port)
+
 def main():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("target_host")
     parser.add_argument("-p", "--ports")
-    parser.add_argument("-sS", "--tcp_syn_scan", action="store_true", help="")
-    parser.add_argument("-sT", "--tcp_connect_scan", action="store_true")
-    parser.add_argument("-sA", "--tcp_ack_scan", action="store_true")
-    parser.add_argument("-sU", "--udp_scan", action="store_true")
-    parser.add_argument("-sY", "--sctp_init_scan", action="store_true")
-    parser.add_argument("-sZ", "--sctp_cookie_echo_scan", action="store_true")
+    parser.add_argument("-s", "--scan_type", choices=SCAN_FUNCTIONS.keys())
     
     args = parser.parse_args()
 
@@ -45,33 +53,11 @@ def main():
     target_ports = parse_ports(args.ports)
     date_and_time()
 
-    if args.sctp_cookie_echo_scan:
-        print("ПОРТ     СТАТУС             СЕРВИС")
-    elif args.sctp_init_scan:
-        print("ПОРТ     СТАТУС      СЕРВИС")
-    elif args.udp_scan:
-        print("ПОРТ    СТАТУС             СЕРВИС")
-    elif args.tcp_ack_scan:
-        print("ПОРТ    СТАТУС        СЕРВИС")
+    if args.scan_type:
+        scan_ports(args.target_host, target_ports, SCAN_FUNCTIONS[args.scan_type])
     else:
-        print("ПОРТ    СТАТУС      СЕРВИС")
-    
-    for port in target_ports:
-        if args.tcp_syn_scan:
-            tcp_syn_scan(args.target_host, port)
-        elif args.tcp_connect_scan:
-            tcp_connect_scan(args.target_host, port)
-        elif args.tcp_ack_scan:
-            tcp_ack_scan(args.target_host, port)
-        elif args.udp_scan:
-            udp_scan(args.target_host, port)
-        elif args.sctp_init_scan:
-            sctp_init_scan(args.target_host, port)
-        elif args.sctp_cookie_echo_scan:
-            sctp_ce_scan(args.target_host, port)
-        else:
-            print("Выберите тип сканирования из доступных")
-            
+        print("Выберите тип сканирования из доступных")
+
     get_mac_address(args.target_host)
 
 if __name__ == "__main__":
