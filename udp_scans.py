@@ -17,7 +17,6 @@ def udp_scan(target_host, port, retries=6):
             responses.append(response)
 
     if responses:
-        #print(f"Получен ответ: {responses[0]}")
         if responses[0].haslayer(UDP):
             open_ports.append(port)
             print(f"{port}/udp: Открыт ({service})")
@@ -28,6 +27,5 @@ def udp_scan(target_host, port, retries=6):
             closed_ports += 1
             print(f"{port}/udp: Закрыт ({service})")
     else:
-        #print(f"Не получен ответ на порт {port}")
         open_or_filtered_ports.append(port)
-        print(f"{port}/udp: Открыт или Фильтруется ({service})")
+        print(f"{port}/udp: Открыт|Фильтруется ({service})")
