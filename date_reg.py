@@ -11,5 +11,5 @@ def date_and_time():
     tz = pytz.timezone(tz_str) if tz_str else pytz.UTC
     current_time = datetime.datetime.now(tz)
     format_time = current_time.strftime("%d-%m-%Y %H:%M %Z")
-    print(f"Сканирование начато в {format_time} {city}")
+    print(f"Сканирование начато в {format_time} {city}\n")
 

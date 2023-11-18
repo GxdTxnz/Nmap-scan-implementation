@@ -1,5 +1,6 @@
 from scapy.all import *
 from params import *
+from scapy.layers.http import HTTP
 
 def load_nmap_services():
     nmap_services = {}

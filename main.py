@@ -62,6 +62,8 @@ def main():
             sctp_ce_scan(args.target_host, port)
         else:
             print("Выберите тип сканирования из доступных")
+            
+        get_mac_address(args.target_host)
 
 if __name__ == "__main__":
     main()
