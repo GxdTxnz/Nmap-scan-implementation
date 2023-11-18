@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import sys
 import argparse
 from scapy.all import *
 from tcp_ACK_scan import tcp_ack_scan
@@ -32,7 +31,7 @@ def main():
     parser.add_argument("target_host")
 
     parser.add_argument("-p", "--ports")
-    parser.add_argument("-sS", "--tcp_syn_scan", action="store_true")
+    parser.add_argument("-sS", "--tcp_syn_scan", action="store_true", help="Boom")
     parser.add_argument("-sT", "--tcp_connect_scan", action="store_true")
     parser.add_argument("-sA", "--tcp_ack_scan", action="store_true")
     parser.add_argument("-sU", "--udp_scan", action="store_true")
