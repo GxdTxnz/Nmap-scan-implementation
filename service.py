@@ -35,6 +35,6 @@ def guess_service(target_host, port):
         elif response.haslayer(TCP) and response.getlayer(TCP).flags == 0x12:
             return "unknown"
         else:
-            return "фильтруемый"
+            return "unknown"
     else:
-        return "фильтруемый"
+        return "unknown"
