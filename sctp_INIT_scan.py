@@ -15,14 +15,14 @@ def sctp_init_scan(target_host, port):
     if response is not None:
         if response.haslayer(SCTP) and response.getlayer(SCTP).sctp_chunktype == 2:
             open_ports.append(port)
-            print(f"{port}/sctp: Открыт ({service})")
+            print(f"{port}/tcp открыт      {service}")
         elif response.haslayer(SCTP) and response.getlayer(SCTP).sctp_chunktype == 6:
             closed_ports.append(port)
-            print(f"{port}/sctp: Закрыт ({service})")
+            print(f"{port}/tcp закрыт      {service}")
         elif response.haslayer(ICMP) and response.getlayer(ICMP).type == 3 and response.getlayer(ICMP).code in [0, 1, 2, 3, 9, 10]:
             filtered_ports.append(port)
-            print(f"{port}/sctp: Фильтруемый ({service})")
+            print(f"{port}/sctp фильтруемый {service}")
     else:
         filtered_ports.append(port)
-        print(f"{port}/sctp: Фильтруемый ({service})")
+        print(f"{port}/sctp фильтруемый {service}")
 

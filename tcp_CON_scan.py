@@ -15,10 +15,10 @@ def tcp_connect_scan(target_host, port):
     if response is not None and response.haslayer(TCP):
         if response.getlayer(TCP).flags == 0x12:
             open_ports.append(port)
-            print(f"{port}/tcp: Открыт ({service})")
+            print(f"{port}/tcp открыт      {service}")
         elif response.getlayer(TCP).flags == 0x14:
             closed_ports += 1 
-            print(f"{port}/tcp: Закрыт ({service})")
+            print(f"{port}/tcp закрыт      {service}")
     elif response is None:
         filtered_ports.append(port)
-        print(f"{port}/tcp: Фильтруемый ({service})")
+        print(f"{port}/tcp фильтруемый {service}")

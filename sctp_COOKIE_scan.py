@@ -15,13 +15,13 @@ def sctp_ce_scan(target_host, port):
     if response is not None:
         if SCTPChunkAbort in response:
             closed_ports += 1
-            print(f"{port}/sctp: Закрыт ({service})")
+            print(f"{port}/sctp закрыт             {service}")
         elif SCTPChunkCookieEcho in response:
             open_or_filtered_ports.append(port)
-            print(f"{port}/sctp: Открыт|Фильтруемый ({service})")
+            print(f"{port}/sctp открыт|фильтруемый {service}")
         else:
             open_or_filtered_ports.append(port)
-            print(f"{port}/sctp: Открыт|Фильтруемый ({service})")
+            print(f"{port}/sctp открыт|фильтруемый {service}")
     else:
         open_or_filtered_ports.append(port)
-        print(f"{port}/sctp: Открыт|Фильтруемый ({service})")
+        print(f"{port}/sctp открыт|фильтруемый {service}")
