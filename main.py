@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import threading
 from tcp_ACK_scan import *
 from tcp_CON_scan import *
 from tcp_SYN_scan import *
@@ -29,6 +30,7 @@ SCAN_HEADERS = {
     'Z': "ПОРТ     СТАТУС             СЕРВИС"
 }
 
+
 def parse_ports(port_arg):
     ports = []
     port_ranges = port_arg.split(',')
@@ -39,13 +41,27 @@ def parse_ports(port_arg):
             ports.extend(range(start, end + 1))
         else:
             ports.append(int(port_range))
-
     return ports
+
+
+def scan_single_port(target_host, port, scan_function):
+    scan_function(target_host, port)
+
 
 def scan_ports(target_host, target_ports, scan_function, scan_header):
     print(scan_header)
+    
+    threads = []
+    
     for port in target_ports:
-        scan_function(target_host, port)
+        thread = threading.Thread(target=scan_single_port, args=(target_host, port, scan_function))
+        threads.append(thread)
+        
+    for thread in threads:
+        thread.start()
+        
+    for thread in threads:
+        thread.join()
 
 def main():
     parser = argparse.ArgumentParser(description="")
