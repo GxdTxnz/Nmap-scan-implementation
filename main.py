@@ -30,6 +30,8 @@ SCAN_HEADERS = {
     'Z': "ПОРТ     СТАТУС             СЕРВИС"
 }
 
+print_lock = threading.Lock()
+
 
 def parse_ports(port_arg):
     ports = []
@@ -49,19 +51,12 @@ def scan_single_port(target_host, port, scan_function):
 
 
 def scan_ports(target_host, target_ports, scan_function, scan_header):
-    print(scan_header)
-    
-    threads = []
-    
+    with print_lock:
+        print(scan_header)
+
     for port in target_ports:
-        thread = threading.Thread(target=scan_single_port, args=(target_host, port, scan_function))
-        threads.append(thread)
-        
-    for thread in threads:
-        thread.start()
-        
-    for thread in threads:
-        thread.join()
+        with print_lock:
+            scan_function(target_host, port)
 
 def main():
     parser = argparse.ArgumentParser(description="")
