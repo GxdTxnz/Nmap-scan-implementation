@@ -11,6 +11,7 @@ from sctp_COOKIE_scan import *
 from mac import *
 from params import *
 from date_reg import *
+from os import *
 
 SCAN_FUNCTIONS = {
     'S': tcp_syn_scan,
@@ -63,7 +64,8 @@ def main():
     parser.add_argument("target_host")
     parser.add_argument("-p", "--ports")
     parser.add_argument("-s", "--scan_type", choices=SCAN_FUNCTIONS.keys())
-    
+    parser.add_argument("-O", "--os_detection", action="store_true", help="Определение операционной системы")
+
     args = parser.parse_args()
 
     if not args.ports:
@@ -76,10 +78,17 @@ def main():
     if args.scan_type:
         scan_header = SCAN_HEADERS.get(args.scan_type, "ПОРТ    СТАТУС      СЕРВИС")
         scan_ports(args.target_host, target_ports, SCAN_FUNCTIONS[args.scan_type], scan_header)
-    else:
-        print("Выберите тип сканирования из доступных")
+
+    if args.os_detection:
+        # Определение ОС после завершения сканирования всех указанных портов
+        os_details = get_os_details(args.target_host, target_ports)
+        print(f"Определена ОС: {os_details['OS']}")
+        print("Дополнительные детали:")
+        for key, value in os_details.items():
+            print(f"{key}: {value}")
 
     get_mac_address(args.target_host)
 
 if __name__ == "__main__":
     main()
+
