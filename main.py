@@ -1,130 +1,85 @@
 #!/usr/bin/python3
 
-from scapy.all import *
-from tcp_ACK_scan import tcp_ack_scan
-from tcp_CON_scan import tcp_connect_scan
-from tcp_SYN_scan import tcp_syn_scan
-from udp_scans import udp_scan
-from sctp_INIT_scan import sctp_init_scan
-from sctp_COOKIE_scan import sctp_ce_scan
-from mac import get_mac_address
+import argparse
+import threading
+from tcp_ACK_scan import *
+from tcp_CON_scan import *
+from tcp_SYN_scan import *
+from udp_scans import *
+from sctp_INIT_scan import *
+from sctp_COOKIE_scan import *
+from mac import *
 from params import *
+from date_reg import *
+
+SCAN_FUNCTIONS = {
+    'S': tcp_syn_scan,
+    'T': tcp_connect_scan,
+    'A': tcp_ack_scan,
+    'U': udp_scan,
+    'Y': sctp_init_scan,
+    'Z': sctp_ce_scan
+}
+
+SCAN_HEADERS = {
+    'S': "ПОРТ    СТАТУС      СЕРВИС",
+    'T': "ПОРТ    СТАТУС      СЕРВИС",
+    'A': "ПОРТ    СТАТУС        СЕРВИС",
+    'U': "ПОРТ    СТАТУС             СЕРВИС",
+    'Y': "ПОРТ     СТАТУС      СЕРВИС",
+    'Z': "ПОРТ     СТАТУС             СЕРВИС"
+}
+
+print_lock = threading.Lock()
 
 
-def initial_start():
-    print(f"Начало сканирования {target_host} на портах от {start_port} до {end_port}...\n")
+def parse_ports(port_arg):
+    ports = []
+    port_ranges = port_arg.split(',')
 
-def output(a):
-    global open_ports, closed_ports, open_or_filtered_ports, filtered_ports, unfiltered
+    for port_range in port_ranges:
+        if '-' in port_range:
+            start, end = map(int, port_range.split('-'))
+            ports.extend(range(start, end + 1))
+        else:
+            ports.append(int(port_range))
+    return ports
 
-    initial_start()
 
-    scan_types = {
-        '1': {
-            'name': "TCP SYN",
-            'scan_func': lambda port: tcp_syn_scan(target_host, port),
-            'description': "TCP SYN сканирование завершено.",
-            'open_ports_label': "открытых",
-            'closed_ports_label': "закрытых",
-            'filtered_ports_label': "фильтруемых"
-        },
-        '2': {
-            'name': "TCP Connect",
-            'scan_func': lambda port: tcp_connect_scan(target_host, port),
-            'description': "TCP Connect сканирование завершено.",
-            'open_ports_label': "открытых",
-            'closed_ports_label': "закрытых",
-            'filtered_ports_label': "фильтруемых"
-        },
-        '3': {
-            'name': "TCP ACK",
-            'scan_func': lambda port: tcp_ack_scan(target_host, port),
-            'description': "TCP ACK сканирование завершено.",
-            'unfiltered_label': "нефильтруемых",
-            'filtered_ports_label': "фильтруемых"
-        },
-        '4': {
-            'name': "UDP",
-            'scan_func': lambda port: udp_scan(target_host, port),
-            'description': "UDP сканирование завершено.",
-            'open_ports_label': "открытых",
-            'filtered_ports_label': "фильтруемых",
-            'open_or_filtered_ports_label': "открытых/фильтруемых",
-            'closed_ports_label': "закрытых"
-        },
-        '5': {
-            'name': "SCTP INIT",
-            'scan_func': lambda port: sctp_init_scan(target_host, port),
-            'description': "SCTP INIT сканирование завершено.",
-            'open_ports_label': "открытых",
-            'closed_ports_label': "закрытых",
-            'filtered_ports_label': "фильтруемых"
-        },
-        '6': {
-            'name': "SCTP COOKIE ECHO",
-            'scan_func': lambda port: sctp_ce_scan(target_host, port),
-            'description': "SCTP COOKIE ECHO сканирование завершено.",
-            'filtered_ports_label': "фильтруемых",
-            'open_or_filtered_ports_label': "открытых/фильтруемых",
-            'closed_ports_label': "закрытых"
-        }
-    }
+def scan_single_port(target_host, port, scan_function):
+    scan_function(target_host, port)
 
-    if a in scan_types:
-        scan_type = scan_types[a]
-        scan_name = scan_type['name']
-        scan_func = scan_type['scan_func']
 
-        if 'open_ports_label' in scan_type:
-            open_ports_label = scan_type['open_ports_label']
+def scan_ports(target_host, target_ports, scan_function, scan_header):
+    with print_lock:
+        print(scan_header)
 
-        if 'closed_ports_label' in scan_type:
-            closed_ports_label = scan_type['closed_ports_label']
-
-        if 'open_or_filtered_ports_label' in scan_type:
-            open_or_filtered_ports_label = scan_type['open_or_filtered_ports_label']
-
-        if 'filtered_ports_label' in scan_type:
-            filtered_ports_label = scan_type['filtered_ports_label']
-
-        if 'unfiltered_label' in scan_type:
-            unfiltered_label = scan_type['unfiltered_label']
-
-        for port in range(start_port, end_port + 1):
-            scan_func(port)
-
-        get_mac_address(target_host)
-
-        print(f"\n{scan_name} сканирование завершено.\n")
-
-        if 'open_ports_label' in scan_type:
-            print(f"Общее количество {open_ports_label} портов: {len(open_ports)}")
-            print(f"Список {open_ports_label} портов: {open_ports}")
-
-        if 'closed_ports_label' in scan_type:
-            print(f"Общее количество {closed_ports_label} портов: {closed_ports}")
-
-        if 'filtered_ports_label' in scan_type:
-            print(f"Общее количество {filtered_ports_label} портов: {len(filtered_ports)}")
-            print(f"Список {filtered_ports_label} портов: {filtered_ports}")
-
-        if 'unfiltered_label' in scan_type:
-            print(f"Общее количество {unfiltered_label} портов: {len(unfiltered)}")
-            print(f"Список {unfiltered_label} портов: {unfiltered}")        
-
-        if 'open_or_filtered_ports_label' in scan_type:
-            print(f"Общее количество {open_or_filtered_ports_label} портов: {len(open_or_filtered_ports)}")
-            print(f"Список {open_or_filtered_ports_label} портов: {open_or_filtered_ports}")
-
-    else:
-        print()
-
+    for port in target_ports:
+        with print_lock:
+            scan_function(target_host, port)
 
 def main():
-    print("Представлены следующие типы сканирования:\n1 - TCP SYN Scan\n2 - TCP Connect Scan\n3 - TCP ACK Scan\n4 - UDP Scan\n5 - SCTP INIT Scan\n6 - SCTP COOKIE ECHO Scan")
-    a = input("Выберите один из них: ")
-    output(a)
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("target_host")
+    parser.add_argument("-p", "--ports")
+    parser.add_argument("-s", "--scan_type", choices=SCAN_FUNCTIONS.keys())
+    
+    args = parser.parse_args()
 
+    if not args.ports:
+        print("Укажите порт(-ы) используя ключ -p\n")
+        return
+
+    target_ports = parse_ports(args.ports)
+    date_and_time()
+
+    if args.scan_type:
+        scan_header = SCAN_HEADERS.get(args.scan_type, "ПОРТ    СТАТУС      СЕРВИС")
+        scan_ports(args.target_host, target_ports, SCAN_FUNCTIONS[args.scan_type], scan_header)
+    else:
+        print("Выберите тип сканирования из доступных")
+
+    get_mac_address(args.target_host)
 
 if __name__ == "__main__":
     main()
