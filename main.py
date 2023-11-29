@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import threading
 from tcp_ACK_scan import *
 from tcp_CON_scan import *
 from tcp_SYN_scan import *
@@ -29,6 +30,9 @@ SCAN_HEADERS = {
     'Z': "ПОРТ     СТАТУС             СЕРВИС"
 }
 
+print_lock = threading.Lock()
+
+
 def parse_ports(port_arg):
     ports = []
     port_ranges = port_arg.split(',')
@@ -39,13 +43,17 @@ def parse_ports(port_arg):
             ports.extend(range(start, end + 1))
         else:
             ports.append(int(port_range))
-
     return ports
 
-def scan_ports(target_host, target_ports, scan_function, scan_header):
-    print(scan_header)
+
+def scan_single_port(target_host, port, scan_function):
+    scan_function(target_host, port)
+
+
+def scan_ports(target_host, target_ports, scan_function):
     for port in target_ports:
-        scan_function(target_host, port)
+        with print_lock:
+            scan_function(target_host, port)
 
 def main():
     parser = argparse.ArgumentParser(description="")
@@ -63,8 +71,7 @@ def main():
     date_and_time()
 
     if args.scan_type:
-        scan_header = SCAN_HEADERS.get(args.scan_type, "ПОРТ    СТАТУС      СЕРВИС")
-        scan_ports(args.target_host, target_ports, SCAN_FUNCTIONS[args.scan_type], scan_header)
+        scan_ports(args.target_host, target_ports, SCAN_FUNCTIONS[args.scan_type])
     else:
         print("Выберите тип сканирования из доступных")
 
