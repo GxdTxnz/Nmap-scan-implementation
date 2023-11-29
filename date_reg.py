@@ -10,6 +10,6 @@ def date_and_time():
     tz_str = tf.timezone_at(lng=location.lng, lat=location.lat)
     tz = pytz.timezone(tz_str) if tz_str else pytz.UTC
     current_time = datetime.datetime.now(tz)
-    format_time = current_time.strftime("%d-%m-%Y %H:%M %Z")
+    format_time = current_time.strftime("%H:%M %d-%m-%Y %Z")
     print(f"Сканирование начато в {format_time} {city}\n")
 

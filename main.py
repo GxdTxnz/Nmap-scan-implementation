@@ -14,13 +14,13 @@ from date_reg import *
 
 SCAN_FUNCTIONS = {
     'S': tcp_syn_scan,
-    'T': tcp_connect_scan,
+    'C': tcp_connect_scan,
     'A': tcp_ack_scan,
     'U': udp_scan,
     'Y': sctp_init_scan,
     'Z': sctp_ce_scan
 }
-
+'''
 SCAN_HEADERS = {
     'S': "ПОРТ    СТАТУС      СЕРВИС",
     'T': "ПОРТ    СТАТУС      СЕРВИС",
@@ -28,7 +28,7 @@ SCAN_HEADERS = {
     'U': "ПОРТ    СТАТУС             СЕРВИС",
     'Y': "ПОРТ     СТАТУС      СЕРВИС",
     'Z': "ПОРТ     СТАТУС             СЕРВИС"
-}
+}'''
 
 print_lock = threading.Lock()
 
@@ -47,16 +47,13 @@ def parse_ports(port_arg):
 
 
 def scan_single_port(target_host, port, scan_function):
-    scan_function(target_host, port)
-
-
-def scan_ports(target_host, target_ports, scan_function, scan_header):
+    result = scan_function(target_host, port)
     with print_lock:
-        print(scan_header)
+        print(result)
 
+def scan_ports(target_host, target_ports, scan_function):
     for port in target_ports:
-        with print_lock:
-            scan_function(target_host, port)
+        scan_single_port(target_host, port, scan_function)
 
 def main():
     parser = argparse.ArgumentParser(description="")
@@ -74,8 +71,7 @@ def main():
     date_and_time()
 
     if args.scan_type:
-        scan_header = SCAN_HEADERS.get(args.scan_type, "ПОРТ    СТАТУС      СЕРВИС")
-        scan_ports(args.target_host, target_ports, SCAN_FUNCTIONS[args.scan_type], scan_header)
+        scan_ports(args.target_host, target_ports, SCAN_FUNCTIONS[args.scan_type])
     else:
         print("Выберите тип сканирования из доступных")
 
