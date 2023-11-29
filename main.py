@@ -14,13 +14,13 @@ from date_reg import *
 
 SCAN_FUNCTIONS = {
     'S': tcp_syn_scan,
-    'C': tcp_connect_scan,
+    'T': tcp_connect_scan,
     'A': tcp_ack_scan,
     'U': udp_scan,
     'Y': sctp_init_scan,
     'Z': sctp_ce_scan
 }
-'''
+
 SCAN_HEADERS = {
     'S': "ПОРТ    СТАТУС      СЕРВИС",
     'T': "ПОРТ    СТАТУС      СЕРВИС",
@@ -28,7 +28,7 @@ SCAN_HEADERS = {
     'U': "ПОРТ    СТАТУС             СЕРВИС",
     'Y': "ПОРТ     СТАТУС      СЕРВИС",
     'Z': "ПОРТ     СТАТУС             СЕРВИС"
-}'''
+}
 
 print_lock = threading.Lock()
 
@@ -47,13 +47,13 @@ def parse_ports(port_arg):
 
 
 def scan_single_port(target_host, port, scan_function):
-    result = scan_function(target_host, port)
-    with print_lock:
-        print(result)
+    scan_function(target_host, port)
+
 
 def scan_ports(target_host, target_ports, scan_function):
     for port in target_ports:
-        scan_single_port(target_host, port, scan_function)
+        with print_lock:
+            scan_function(target_host, port)
 
 def main():
     parser = argparse.ArgumentParser(description="")
