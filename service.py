@@ -5,7 +5,7 @@ from scapy.layers.http import HTTP
 def load_nmap_services():
     nmap_services = {}
     try:
-        with open('C:/Users/777/Desktop/Nmap-scan-implementation/data/nmap-services', 'r') as file:
+        with open('/usr/share/nmap/nmap-services', 'r') as file:
             for line in file:
                 if not line.startswith('#') and '/' in line:
                     parts = line.split()
