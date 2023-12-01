@@ -2,7 +2,6 @@ from scapy.all import *
 from params import *
 from service import *
 
-
 def sctp_ce_scan(target_host, port):
     global open_or_filtered_ports, closed_ports
 
@@ -12,16 +11,20 @@ def sctp_ce_scan(target_host, port):
     response = sr1(packet, timeout=1, verbose=0)
     service = guess_service(target_host, port)
 
+    result = None
+
     if response is not None:
         if SCTPChunkAbort in response:
             closed_ports += 1
-            print(f"{port}/sctp закрыт             {service}")
+            result = f"{port}/sctp закрыт             {service}"
         elif SCTPChunkCookieEcho in response:
             open_or_filtered_ports.append(port)
-            print(f"{port}/sctp открыт|фильтруемый {service}")
+            result = f"{port}/sctp открыт|фильтруемый {service}"
         else:
             open_or_filtered_ports.append(port)
-            print(f"{port}/sctp открыт|фильтруемый {service}")
+            result = f"{port}/sctp открыт|фильтруемый {service}"
     else:
         open_or_filtered_ports.append(port)
-        print(f"{port}/sctp открыт|фильтруемый {service}")
+        result = f"{port}/sctp открыт|фильтруемый {service}"
+
+    return result
