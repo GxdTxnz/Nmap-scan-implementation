@@ -10,7 +10,8 @@ from sctp_COOKIE_scan import *
 from mac import *
 from params import *
 from date_reg import *
-import threading
+import multiprocessing
+from concurrent.futures import ThreadPoolExecutor
 
 SCAN_FUNCTIONS = {
     'S': tcp_syn_scan,
@@ -20,9 +21,6 @@ SCAN_FUNCTIONS = {
     'Y': sctp_init_scan,
     'Z': sctp_ce_scan
 }
-
-print_lock = threading.Lock()
-
 
 def parse_ports(port_arg):
     ports = []
@@ -36,23 +34,17 @@ def parse_ports(port_arg):
             ports.append(int(port_range))
     return ports
 
-
-def scan_single_port(target_host, port, scan_function):
+def scan_single_port(args):
+    target_host, port, scan_function = args
     result = scan_function(target_host, port)
-    print(result)
-
-def scan_ports(target_host, target_ports, scan_function):
-    for port in target_ports:
-        result = scan_function(target_host, port)
-        with print_lock:
-            print(result)
+    return result
 
 def main():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("target_host")
     parser.add_argument("-p", "--ports")
     parser.add_argument("-s", "--scan_type", choices=SCAN_FUNCTIONS.keys())
-    
+
     args = parser.parse_args()
 
     if not args.ports:
@@ -63,7 +55,12 @@ def main():
     date_and_time()
 
     if args.scan_type:
-        scan_ports(args.target_host, target_ports, SCAN_FUNCTIONS[args.scan_type])
+        args_list = [(args.target_host, port, SCAN_FUNCTIONS[args.scan_type]) for port in target_ports]
+        with ThreadPoolExecutor(max_workers=len(target_ports)) as executor:
+            results = list(executor.map(scan_single_port, args_list))
+
+        for result in results:
+            print(result)
     else:
         print("Выберите тип сканирования из доступных")
 
