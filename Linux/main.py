@@ -37,8 +37,11 @@ def parse_ports(port_arg):
 
 
 def scan_single_port(args):
+    global scanned_ports_count
+
     target_host, port, scan_function = args
     result = scan_function(target_host, port)
+    scanned_ports_count += 1
     return result
 
 
@@ -54,6 +57,7 @@ def main():
         print("Укажите порт(-ы) используя ключ -p\n")
         return
 
+    c = 0
     target_ports = parse_ports(args.ports)
     date_and_time()
     start_time = time.time() #Замеряем время начало сканирования
@@ -63,8 +67,17 @@ def main():
         with ThreadPoolExecutor(max_workers=len(target_ports)) as executor:
             results = list(executor.map(scan_single_port, args_list))
 
-        for result in results:
-            print(result)
+        if len(target_ports) >= 27:
+            #open_ports = get_open_ports()
+            #print("Открытые порты:")
+            for result in results:
+                if "открыт" in result:
+                    c += 1
+                    print(result)
+            print(f"Было скрыто: {len(target_ports) - c} tcp портов")
+        else:
+            for result in results:
+                print(result)
     else:
         print("Выберите тип сканирования из доступных")
 
@@ -73,7 +86,7 @@ def main():
 
     get_mac_address(args.target_host)
     print(f"\nСканирование завершилось за {elapsed_time:.2f}s")
-
+    
 if __name__ == "__main__":
     main()
 
