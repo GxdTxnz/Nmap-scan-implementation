@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
 import argparse
+import multiprocessing
+from concurrent.futures import ThreadPoolExecutor
 from tcp_ACK_scan import *
 from tcp_CON_scan import *
 from tcp_SYN_scan import *
@@ -10,8 +12,6 @@ from sctp_COOKIE_scan import *
 from mac import *
 from params import *
 from date_reg import *
-import multiprocessing
-from concurrent.futures import ThreadPoolExecutor
 
 SCAN_FUNCTIONS = {
     'S': tcp_syn_scan,
@@ -21,6 +21,7 @@ SCAN_FUNCTIONS = {
     'Y': sctp_init_scan,
     'Z': sctp_ce_scan
 }
+
 
 def parse_ports(port_arg):
     ports = []
@@ -34,10 +35,12 @@ def parse_ports(port_arg):
             ports.append(int(port_range))
     return ports
 
+
 def scan_single_port(args):
     target_host, port, scan_function = args
     result = scan_function(target_host, port)
     return result
+
 
 def main():
     parser = argparse.ArgumentParser(description="")
@@ -53,6 +56,7 @@ def main():
 
     target_ports = parse_ports(args.ports)
     date_and_time()
+    start_time = time.time() #Замеряем время начало сканирования
 
     if args.scan_type:
         args_list = [(args.target_host, port, SCAN_FUNCTIONS[args.scan_type]) for port in target_ports]
@@ -64,7 +68,12 @@ def main():
     else:
         print("Выберите тип сканирования из доступных")
 
+    end_time = time.time()  #Замеряем время окончания сканирования
+    elapsed_time = end_time - start_time
+
     get_mac_address(args.target_host)
+    print(f"\nСканирование завершилось за {elapsed_time:.2f}s")
 
 if __name__ == "__main__":
     main()
+
