@@ -38,13 +38,14 @@ def parse_ports(port_arg):
 
 
 def scan_single_port(target_host, port, scan_function):
-    scan_function(target_host, port)
-
+    result = scan_function(target_host, port)
+    print(result)
 
 def scan_ports(target_host, target_ports, scan_function):
     for port in target_ports:
+        result = scan_function(target_host, port)
         with print_lock:
-            scan_function(target_host, port)
+            print(result)
 
 def main():
     parser = argparse.ArgumentParser(description="")
