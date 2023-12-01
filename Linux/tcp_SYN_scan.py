@@ -37,7 +37,3 @@ def tcp_syn_scan(target_host, port):
 
     return result
 
-'''
-def get_open_ports():
-    return open_ports
-    '''

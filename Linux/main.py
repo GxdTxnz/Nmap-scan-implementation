@@ -58,6 +58,8 @@ def main():
         return
 
     c = 0
+    #cd = 0
+
     target_ports = parse_ports(args.ports)
     date_and_time()
     start_time = time.time() #Замеряем время начало сканирования
@@ -71,10 +73,12 @@ def main():
             #open_ports = get_open_ports()
             #print("Открытые порты:")
             for result in results:
-                if "открыт" in result:
+                if "открыт" not in result:
                     c += 1
+            print(f"Было скрыто: {c} tcp портов")
+            for result in results:
+                if "открыт" in result:
                     print(result)
-            print(f"Было скрыто: {len(target_ports) - c} tcp портов")
         else:
             for result in results:
                 print(result)
