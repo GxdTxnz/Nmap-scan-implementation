@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import argparse
-import threading
 from tcp_ACK_scan import *
 from tcp_CON_scan import *
 from tcp_SYN_scan import *
@@ -11,6 +10,7 @@ from sctp_COOKIE_scan import *
 from mac import *
 from params import *
 from date_reg import *
+import threading
 
 SCAN_FUNCTIONS = {
     'S': tcp_syn_scan,
@@ -46,7 +46,6 @@ def scan_ports(target_host, target_ports, scan_function):
         with print_lock:
             scan_function(target_host, port)
 
-
 def main():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("target_host")
@@ -68,7 +67,6 @@ def main():
         print("Выберите тип сканирования из доступных")
 
     get_mac_address(args.target_host)
-
 
 if __name__ == "__main__":
     main()
