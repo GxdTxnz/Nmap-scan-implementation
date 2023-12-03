@@ -35,3 +35,4 @@ def tcp_syn_scan(target_host, port):
         result = f"{port}/tcp фильтруемый {service}"
 
     return result
+

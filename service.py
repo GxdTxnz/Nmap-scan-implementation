@@ -21,11 +21,9 @@ def load_nmap_services():
 def guess_service(target_host, port):
     nmap_services = load_nmap_services()
 
-    # Проверить, есть ли порт в базе данных nmap-services
     if port in nmap_services:
         return nmap_services[port]
 
-    # Если нет, попробуем отправить HTTP GET запрос и проверить наличие HTTP-ответа
     request = IP(dst=target_host)/TCP(dport=port, flags="S")
     response = sr1(request, timeout=1, verbose=0)
 

@@ -30,4 +30,4 @@ def get_mac_address(target_host):
     mac_address_upper = mac_address.upper()
     mac_prefix = mac_address.upper().replace(':', '')[:6]
     vendor = nmap_services.get(mac_prefix, None)
-    print(f"\nMAC-адрес: {mac_address_upper} ({vendor})")
+    print(f"MAC-адрес: {mac_address_upper} ({vendor})")
