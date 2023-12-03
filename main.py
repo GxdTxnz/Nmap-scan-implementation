@@ -62,7 +62,7 @@ def main():
 
     target_ports = parse_ports(args.ports)
     date_and_time()
-    start_time = time.time() #Замеряем время начало сканирования
+    start_time = time.time()
 
     if args.scan_type:
         args_list = [(args.target_host, port, SCAN_FUNCTIONS[args.scan_type]) for port in target_ports]
@@ -70,8 +70,6 @@ def main():
             results = list(executor.map(scan_single_port, args_list))
 
         if len(target_ports) >= 27:
-            #open_ports = get_open_ports()
-            #print("Открытые порты:")
             for result in results:
                 if "открыт" not in result:
                     c += 1
@@ -85,7 +83,7 @@ def main():
     else:
         print("Выберите тип сканирования из доступных")
 
-    end_time = time.time()  #Замеряем время окончания сканирования
+    end_time = time.time()
     elapsed_time = end_time - start_time
 
     get_mac_address(args.target_host)
