@@ -70,12 +70,11 @@ def main():
 
         if len(target_ports) >= 27:
             for result in results:
-                if "открыт" not in result:
-                    c += 1
-            print(f"Было скрыто: {c} tcp портов")
-            for result in results:
                 if "открыт" in result:
                     print(result)
+                else:
+                    c += 1
+            print(f"Было скрыто: {c} tcp портов")
         else:
             for result in results:
                 print(result)
