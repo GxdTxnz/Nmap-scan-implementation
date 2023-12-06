@@ -45,6 +45,16 @@ def scan_single_port(args):
     return result
 
 
+def count_port_statuses(results, statuses):
+    status_counts = {status: 0 for status in statuses}
+    for result in results:
+        for status in statuses:
+            if status in result:
+                status_counts[status] += 1
+
+    return status_counts
+
+
 def main():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("target_host")
@@ -58,39 +68,45 @@ def main():
         return
 
     c = 0
-    #cd = 0
 
     target_ports = parse_ports(args.ports)
     date_and_time()
-    start_time = time.time() #Замеряем время начало сканирования
-
+    start_time = time.time()
+    stats = ["открыт", "закрыт", "фильтруемый"]
+    
     if args.scan_type:
         args_list = [(args.target_host, port, SCAN_FUNCTIONS[args.scan_type]) for port in target_ports]
         with ThreadPoolExecutor(max_workers=len(target_ports)) as executor:
             results = list(executor.map(scan_single_port, args_list))
+            
+            # Подсчет вхождений статусов портов
+            status_counts = count_port_statuses(results, stats)
+            min_count = min(status_counts.values())
+            
+            # Вывод статусов портов и их количества повторений
+            if len(target_ports) >= 27:
+                for status, count in status_counts.items():
+                    print(f"Статус порта {status} встретился {count} раз")
 
-        if len(target_ports) >= 27:
-            #open_ports = get_open_ports()
-            #print("Открытые порты:")
-            for result in results:
-                if "открыт" not in result:
-                    c += 1
-            print(f"Было скрыто: {c} tcp портов")
-            for result in results:
-                if "открыт" in result:
+            # Вывод портов с минимальным количеством повторений статусов
+                for result in results:
+                    for status, count in status_counts.items():
+                        if count == min_count and status in result:
+                            print(result)
+                            break
+    
+            else:
+                for result in results:
                     print(result)
-        else:
-            for result in results:
-                print(result)
     else:
         print("Выберите тип сканирования из доступных")
 
-    end_time = time.time()  #Замеряем время окончания сканирования
+    end_time = time.time()
     elapsed_time = end_time - start_time
 
     get_mac_address(args.target_host)
     print(f"\nСканирование завершилось за {elapsed_time:.2f}s")
-    
+
+
 if __name__ == "__main__":
     main()
-
