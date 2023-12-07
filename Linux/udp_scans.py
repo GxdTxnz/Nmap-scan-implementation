@@ -1,31 +1,25 @@
 from scapy.all import *
-from params import *
 from service import *
 
-def udp_scan(target_host, port, retries=6):
-    global open_ports, closed_ports, open_or_filtered_ports
+def udp_scan(target_host, port):
 
     ip_packet = IP(dst=target_host)
-    udp_packet = UDP(dport=port, sport=12345)
+    udp_packet = UDP(dport=port, sport=RandShort())
     packet = ip_packet / udp_packet
     service = guess_service(target_host, port)
-    responses = []
 
-    for _ in range(retries):
-        response = sr1(packet, timeout=2, verbose=0)
-        if response is not None:
-            responses.append(response)
+    response = sr1(packet, timeout=2, verbose=0)
 
     result = None
 
-    if responses:
-        if responses[0].haslayer(UDP):
+    if response:
+        if response.haslayer(UDP):
             result = f"{port}/udp открыт             {service}"
-        elif responses[0].haslayer(ICMP) and responses[0].getlayer(ICMP).type == 3 and responses[0].getlayer(ICMP).code in [1, 2, 9, 10, 13]:
+        elif response.haslayer(ICMP) and response.getlayer(ICMP).type == 3 and response.getlayer(ICMP).code in [1, 2, 9, 10, 13]:
             result = f"{port}/udp фильтруемый        {service}"
-        elif responses[0].haslayer(ICMP) and responses[0].getlayer(ICMP).type == 3 and responses[0].getlayer(ICMP).code == 3:
+        elif response.haslayer(ICMP) and response.getlayer(ICMP).type == 3 and response.getlayer(ICMP).code == 3:
             result = f"{port}/udp закрыт             {service}"
     else:
-        result = f"{port}/udp открыт|Фильтруемый {service}"
+        result = f"{port}/udp открыт|фильтруемый {service}"
 
     return result
