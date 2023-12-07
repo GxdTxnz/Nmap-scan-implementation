@@ -2,7 +2,7 @@
 
 import argparse
 import multiprocessing
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 from tcp_ACK_scan import *
 from tcp_CON_scan import *
 from tcp_SYN_scan import *
@@ -76,31 +76,45 @@ def main():
     
     if args.scan_type:
         args_list = [(args.target_host, port, SCAN_FUNCTIONS[args.scan_type]) for port in target_ports]
-        with ThreadPoolExecutor(max_workers=len(target_ports)) as executor:
+        with ProcessPoolExecutor(max_workers=len(target_ports)) as executor:
             results = list(executor.map(scan_single_port, args_list))
-            
-            # Подсчет вхождений статусов портов
-            status_counts = count_port_statuses(results, stats)
+
+        # Вместо вывода результатов в первом цикле, сохраните их в списке
+            result_list = []
+            for result in results:
+                result_list.append(result)
+                print(result)
+
+        # Подсчет вхождений статусов портов
+            status_counts = count_port_statuses(result_list, stats)
             min_count = min(status_counts.values())
-            
-            # Вывод статусов портов и их количества повторений
+
+        # Вывод статусов портов и их количества повторений
             if len(target_ports) >= 27:
                 for status, count in status_counts.items():
                     print(f"Статус порта {status} встретился {count} раз")
 
-            # Вывод портов с минимальным количеством повторений статусов
-                for result in results:
-                    for status, count in status_counts.items():
-                        if count == min_count and status in result:
-                            print(result)
-                            break
-    
+            # Находим минимальное количество повторений статуса
+                min_count = min(status_counts.values())
+
+            # Создаем словарь, где ключ - статус, значение - список портов с этим статусом
+                status_ports_dict = {status: [] for status in stats}
+                for result in result_list:
+                    for status in stats:
+                        if status in result:
+                            status_ports_dict[status].append(result)
+
+            # Выводим порты с минимальным количеством повторений статусов
+                for status, ports in status_ports_dict.items():
+                    if len(ports) == min_count:
+                        for port in ports:
+                            print(port)
             else:
-                for result in results:
+                for result in result_list:
                     print(result)
     else:
         print("Выберите тип сканирования из доступных")
-
+    
     end_time = time.time()
     elapsed_time = end_time - start_time
 
