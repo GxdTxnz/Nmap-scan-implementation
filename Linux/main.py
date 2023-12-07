@@ -2,7 +2,8 @@
 
 import argparse
 import multiprocessing
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
+from collections import Counter
 from tcp_ACK_scan import *
 from tcp_CON_scan import *
 from tcp_SYN_scan import *
@@ -45,16 +46,6 @@ def scan_single_port(args):
     return result
 
 
-def count_port_statuses(results, statuses):
-    status_counts = {status: 0 for status in statuses}
-    for result in results:
-        for status in statuses:
-            if status in result:
-                status_counts[status] += 1
-
-    return status_counts
-
-
 def main():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("target_host")
@@ -72,55 +63,42 @@ def main():
     target_ports = parse_ports(args.ports)
     date_and_time()
     start_time = time.time()
-    stats = ["открыт", "закрыт", "фильтруемый"]
-    
+
     if args.scan_type:
         args_list = [(args.target_host, port, SCAN_FUNCTIONS[args.scan_type]) for port in target_ports]
-        with ProcessPoolExecutor(max_workers=len(target_ports)) as executor:
+        with ThreadPoolExecutor(max_workers=len(target_ports)) as executor:
             results = list(executor.map(scan_single_port, args_list))
 
-        # Вместо вывода результатов в первом цикле, сохраните их в списке
-            result_list = []
+        if len(target_ports) >= 27:
+
+        # Считаем количество повторений каждого статуса порта
+            status_counts = Counter(result.split()[1] for result in results)
+
+        # Находим статус с максимальным количеством повторений
+            most_common_status = status_counts.most_common(1)[0][0]
+
+        # Выводим порты с другими статусами
             for result in results:
-                result_list.append(result)
+                status = result.split()[1]
+                if status != most_common_status:
+                    print(result)
+
+            print(f"Было скрыто: {status_counts[most_common_status]} tcp портов с состоянием {most_common_status}")
+
+        else:
+            for result in results:
                 print(result)
 
-        # Подсчет вхождений статусов портов
-            status_counts = count_port_statuses(result_list, stats)
-            min_count = min(status_counts.values())
-
-        # Вывод статусов портов и их количества повторений
-            if len(target_ports) >= 27:
-                for status, count in status_counts.items():
-                    print(f"Статус порта {status} встретился {count} раз")
-
-            # Находим минимальное количество повторений статуса
-                min_count = min(status_counts.values())
-
-            # Создаем словарь, где ключ - статус, значение - список портов с этим статусом
-                status_ports_dict = {status: [] for status in stats}
-                for result in result_list:
-                    for status in stats:
-                        if status in result:
-                            status_ports_dict[status].append(result)
-
-            # Выводим порты с минимальным количеством повторений статусов
-                for status, ports in status_ports_dict.items():
-                    if len(ports) == min_count:
-                        for port in ports:
-                            print(port)
-            else:
-                for result in result_list:
-                    print(result)
     else:
         print("Выберите тип сканирования из доступных")
-    
+
+
     end_time = time.time()
     elapsed_time = end_time - start_time
 
     get_mac_address(args.target_host)
     print(f"\nСканирование завершилось за {elapsed_time:.2f}s")
-
-
+    
 if __name__ == "__main__":
     main()
+
