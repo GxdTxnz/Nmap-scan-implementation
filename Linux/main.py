@@ -83,7 +83,7 @@ def main():
                 if status != most_common_status:
                     print(result)
 
-            print(f"Было скрыто: {status_counts[most_common_status]} tcp портов с состоянием {most_common_status}")
+            print(f"Было скрыто: {status_counts[most_common_status]} портов с состоянием {most_common_status}")
 
         else:
             for result in results:
