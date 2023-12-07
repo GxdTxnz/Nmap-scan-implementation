@@ -15,16 +15,12 @@ def tcp_ack_scan(target_host, port):
 
     if response is not None:
         if response.haslayer(TCP) and response.getlayer(TCP).flags == 0x14:
-            unfiltered.append(port)
             result = f"{port}/tcp нефильтруемый {service}"
         elif response.haslayer(ICMP) and response.getlayer(ICMP).type == 3 and response.getlayer(ICMP).code in [1, 2, 3, 9, 10, 13]:
-            filtered_ports.append(port)
             result = f"{port}/tcp фильтруемый   {service}"
         else:
-            unfiltered.append(port)
             result = f"{port}/tcp нефильтруемый {service}"
     else:
-        filtered_ports.append(port)
         result = f"{port}/tcp фильтруемый   {service}"
 
     return result

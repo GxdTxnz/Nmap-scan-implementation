@@ -20,16 +20,12 @@ def udp_scan(target_host, port, retries=6):
 
     if responses:
         if responses[0].haslayer(UDP):
-            open_ports.append(port)
             result = f"{port}/udp открыт             {service}"
         elif responses[0].haslayer(ICMP) and responses[0].getlayer(ICMP).type == 3 and responses[0].getlayer(ICMP).code in [1, 2, 9, 10, 13]:
-            filtered_ports.append(port)
             result = f"{port}/udp фильтруемый        {service}"
         elif responses[0].haslayer(ICMP) and responses[0].getlayer(ICMP).type == 3 and responses[0].getlayer(ICMP).code == 3:
-            closed_ports += 1
             result = f"{port}/udp закрыт             {service}"
     else:
-        open_or_filtered_ports.append(port)
         result = f"{port}/udp открыт|Фильтруемый {service}"
 
     return result
