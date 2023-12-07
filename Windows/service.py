@@ -5,8 +5,7 @@ from scapy.layers.http import HTTP
 def load_nmap_services():
     nmap_services = {}
     try:
-        with open('/usr/share/nmap/nmap-services', 'r') as file:
-            #with open('C:/Users/777/Desktop/Nmap-scan-implementation/data/nmap-services', 'r') as file:
+        with open('C:/Users/777/Desktop/Nmap-scan-implementation/data/nmap-services', 'r') as file:
             for line in file:
                 if not line.startswith('#') and '/' in line:
                     parts = line.split()
@@ -22,11 +21,9 @@ def load_nmap_services():
 def guess_service(target_host, port):
     nmap_services = load_nmap_services()
 
-    # Проверить, есть ли порт в базе данных nmap-services
     if port in nmap_services:
         return nmap_services[port]
 
-    # Если нет, попробуем отправить HTTP GET запрос и проверить наличие HTTP-ответа
     request = IP(dst=target_host)/TCP(dport=port, flags="S")
     response = sr1(request, timeout=1, verbose=0)
 

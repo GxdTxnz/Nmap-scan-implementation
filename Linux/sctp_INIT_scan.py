@@ -3,7 +3,6 @@ from params import *
 from service import *
 
 def sctp_init_scan(target_host, port):
-    global open_ports, closed_ports, filtered_ports
 
     ip_packet = IP(dst=target_host)
     sctp_packet = SCTP(dport=port)

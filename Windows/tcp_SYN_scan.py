@@ -4,7 +4,6 @@ from service import *
 
 
 def tcp_syn_scan(target_host, port):
-    global open_ports, closed_ports, filtered_ports
 
     ip_packet = IP(dst=target_host)
     tcp_packet = TCP(dport=port, flags="S")

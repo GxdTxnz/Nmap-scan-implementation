@@ -4,7 +4,6 @@ from service import *
 
 
 def sctp_ce_scan(target_host, port):
-    global open_or_filtered_ports, closed_ports, filtered_ports
 
     ip_packet = IP(dst=target_host)
     sctp_packet = SCTP(dport=port, sport=RandShort())

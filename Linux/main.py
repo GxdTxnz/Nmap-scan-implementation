@@ -70,14 +70,9 @@ def main():
             results = list(executor.map(scan_single_port, args_list))
 
         if len(target_ports) >= 27:
-
-        # Считаем количество повторений каждого статуса порта
             status_counts = Counter(result.split()[1] for result in results)
-
-        # Находим статус с максимальным количеством повторений
             most_common_status = status_counts.most_common(1)[0][0]
 
-        # Выводим порты с другими статусами
             for result in results:
                 status = result.split()[1]
                 if status != most_common_status:
