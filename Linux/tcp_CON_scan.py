@@ -1,6 +1,7 @@
 from scapy.all import *
-from params import *
+from termcolor import colored
 from service import *
+
 
 def tcp_connect_scan(target_host, port):
 
@@ -14,10 +15,10 @@ def tcp_connect_scan(target_host, port):
 
     if response is not None and response.haslayer(TCP):
         if response.getlayer(TCP).flags == 0x12:
-            result = f"{port}/tcp открыт      {service}"
+            result = f"{port}/tcp {colored('открыт', 'green')}      {service}"
         elif response.getlayer(TCP).flags == 0x14:
-            result = f"{port}/tcp закрыт      {service}"
+            result = f"{port}/tcp {colored('закрыт', 'red')}      {service}"
     elif response is None:
-        result = f"{port}/tcp фильтруемый {service}"
+        result = f"{port}/tcp {colored('фильтруемый', 'yellow')} {service}"
 
     return result

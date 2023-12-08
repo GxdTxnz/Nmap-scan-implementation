@@ -1,6 +1,7 @@
 from scapy.all import *
-from params import *
+from termcolor import colored
 from service import *
+
 
 def udp_scan(target_host, port):
 
@@ -15,12 +16,12 @@ def udp_scan(target_host, port):
 
     if response:
         if response.haslayer(UDP):
-            result = f"{port}/udp открыт             {service}"
+            result = f"{port}/udp {colored('открыт', 'green')}             {service}"
         elif response.haslayer(ICMP) and response.getlayer(ICMP).type == 3 and response.getlayer(ICMP).code in [1, 2, 9, 10, 13]:
-            result = f"{port}/udp фильтруемый        {service}"
+            result = f"{port}/udp {colored('фильтруемый', 'yellow')}        {service}"
         elif response.haslayer(ICMP) and response.getlayer(ICMP).type == 3 and response.getlayer(ICMP).code == 3:
-            result = f"{port}/udp закрыт             {service}"
+            result = f"{port}/udp {colored('закрыт', 'red')}             {service}"
     else:
-        result = f"{port}/udp открыт|фильтруемый {service}"
+        result = f"{port}/udp {colored('открыт|фильтруемый', 'yellow')} {service}"
 
     return result

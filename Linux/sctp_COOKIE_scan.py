@@ -1,5 +1,5 @@
 from scapy.all import *
-from params import *
+from termcolor import colored
 from service import *
 
 
@@ -16,13 +16,12 @@ def sctp_ce_scan(target_host, port):
 
     if response is not None:
         if response.haslayer(SCTP) and response.getlayer(SCTP).sctp_chunktype == 9:
-            result = f"{port}/sctp закрыт             {service}"
+            result = f"{port}/sctp {colored('закрыт', 'red')}             {service}"
         elif response.haslayer(SCTP) and response.getlayer(SCTP).sctp_chunktype == 11:
-            result = f"{port}/sctp открыт|фильтруемый {service}"
+            result = f"{port}/sctp {colored('открыт|фильтруемый', 'green')} {service}"
         else:
-            result = f"{port}/sctp фильтруемый        {service}"
+            result = f"{port}/sctp {colored('фильтруемый', 'yellow')}        {service}"
     else:
-        result = f"{port}/sctp открыт|фильтруемый {service}"
+        result = f"{port}/sctp {colored('открыт|фильтруемый', 'green')} {service}"
 
     return result
-
