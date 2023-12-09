@@ -26,7 +26,6 @@ decorator==5.1.1
 deluge==2.0.3
 distro==1.8.0
 distro-info==1.5
-duplicity==0.8.22
 executing==1.2.0
 fasteners==0.17.3
 feedparser==6.0.10
@@ -34,10 +33,8 @@ fonttools==4.38.0
 fs==2.4.16
 fuse-python==1.0.5
 future==0.18.2
-galternatives==1.0.9
 gast==0.5.2
 geocoder==1.38.1
-GeoIP==1.3.2
 gpg==1.18.0
 greenlet==2.0.2
 h3==3.7.6
@@ -49,22 +46,17 @@ incremental==21.3.0
 invoke==2.0.0
 ipython==8.5.0
 jedi==0.18.2
-kiwisolver==0.0.0
 lazr.restfulclient==0.14.5
 lazr.uri==1.0.6
-libtorrent==2.0.8
 lockfile==0.12.2
 louis==3.24.0
 lxml==4.9.2
-lz4==4.0.2+dfsg
 Mako==1.2.4.dev0
 manuf==1.1.5
 MarkupSafe==2.1.2
 matplotlib==3.6.3
 matplotlib-inline==0.1.6
-meteo-qt==3.3
 monotonic==1.6
-mpmath==0.0.0
 msgpack==1.0.3
 musicbrainzngs==0.7.1
 mutagen==1.46.0
@@ -82,7 +74,6 @@ ply==3.11
 prompt-toolkit==3.0.36
 psutil==5.9.4
 ptyprocess==0.7.0
-pure-eval==0.0.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycairo==1.20.1
@@ -90,7 +81,6 @@ pycparser==2.21
 pycryptodomex==3.11.0
 pycups==2.0.1
 pycurl==7.45.2
-pygame==2.1.2
 Pygments==2.14.0
 PyGObject==3.42.2
 PyHamcrest==2.0.3
@@ -119,7 +109,6 @@ pytz==2022.7.1
 pyxattr==0.8.1
 pyxdg==0.28
 PyYAML==6.0
-quodlibet==4.5.0
 ratelim==0.1.6
 rencode==1.0.6
 reportbug==12.0.0
