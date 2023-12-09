@@ -20,13 +20,13 @@
 - sY - SCTP INIT метод
 - sZ - SCTP COOKIE Echo метод
 ## Предварительная настройка
-- Windows:
+### Windows:
 Установите python версии 3.10 или выше, pip3
 Установите библиотеки из reqs_Windows.txt:
 ```shell
 pip3 install -r reqs_Windows.txt
 ```
-- Linux(Debian):
+### Linux(Debian):
 Установите python версии 3.10 или выше, pip3
 ```bash
 sudo apt update
@@ -47,7 +47,8 @@ cp ../data/* /usr/share/nmap/
 ```bash
 pip3 install -r reqs_Linux.txt
 ```
-- Ubuntu:
+### Ubuntu:
+
 __Настройка аналогична настройке для Debian__
 ## Использование:
 - Windows:
