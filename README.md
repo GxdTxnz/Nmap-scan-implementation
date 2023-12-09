@@ -45,7 +45,7 @@ sudo cp ../data/* /usr/share/nmap/
 ```
 Установите библиотеки из reqs_Linux.txt
 ```bash
-sudo pip3 install -r reqs_Linux.txt
+sudo pip3 install -r reqs_Debian.txt
 ```
 Чтобы иметь возможность запустить сканирование из любой директории, создадим ссылку в `/usr/bin`
 ```bash
