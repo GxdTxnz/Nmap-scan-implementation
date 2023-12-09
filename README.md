@@ -1,24 +1,68 @@
 # Nmap-scan-implementation
-### Задачи
-- ~~Модифицировать main~~
-- ~~Модифицировать tcp_syn_scan:~~
-	- ~~улучшить анализ портов~~
-	- ~~добавить вывод сервисов портов~~
-- ~~Модифицировать tcp_con_scan:~~
-	- ~~улучшить анализ портов~~
-	- ~~добавить вывод сервисов портов~~
-- ~~Модифицировать tcp_ack_scan:~~
-	- ~~улучшить анализ портов~~
-	- ~~добавить вывод сервисов портов~~
-- Модифицировать udp_scan:
-	- ~~улучшить анализ портов~~
-	- ~~добавить вывод сервисов портов~~
-- ~~Создать вывод MAC адреса и вендора~~
-- Добавить больше методов сканирования
-	- ~~SCTP INIT scan~~
- 	- ~~SCTP COOKIE ECHO scan~~
- 	- OS Detection
-- ~~Доработать main, чтобы работа выполнялась через ключи~~
-- ~~Улучшенный вывод main~~
-- ~~Сжатый вывод в случая массового сканирования?~~
-- Доп функции? 
+## Поддерживаемые типы сканирования и доп функции:
+- `date_reg.py` - функция вывода времени начала сканирования, даты, региона и города
+- `service.py` - функция вывода сервисов, используемых на конкретных портах
+- `mac.py` - вывода MAC-адреса и вендора сетевого интерфейса taget host
+- sS - TCP SYN метод
+- sT - TCP Connect метод
+- sA - TCP ACK метод
+- sU - UDP метод
+- sY - SCTP INIT метод
+- sZ - SCTP COOKIE Echo метод
+## Предварительная настройка
+- Windows:
+Установите python версии 3.10 или выше, pip3
+Установите библиотеки из reqs_Windows.txt:
+```shell
+pip3 install -r reqs_Windows.txt
+```
+- Linux(Debian):
+Установите python версии 3.10 или выше, pip3
+```bash
+sudo apt update
+sudo apt upgrade
+sudo apt install wget software-properties-common
+apt-get install build-essential
+apt install python3
+sudo apt install python3-pip
+``` 
+Перейдите в директорию `Nmap-scan-implementation/`. Раздайте права на файлы. Создайте директорию `/usr/share/nmap/`, а потом скопируйте файлы из `../data` в `/usr/share/nmap/`:
+```bash
+cd Nmap-scan-implementation/Linux/
+chmod 777 *
+mkdir /usr/share/nmap
+cp ../data/* /usr/share/nmap/
+```
+Установите библиотеки из reqs_Linux.txt
+```bash
+pip3 install -r reqs_Linux.txt
+```
+- Ubuntu:
+__Настройка аналогична настройке для Debian__
+## Использование:
+- Windows:
+- Linux:
+```bash
+main.py [-h] [-p PORTS] [-s {S,T,A,U,Y,Z}] target_host
+```
+Пример:
+```bash
+root@root:/Nmap-scan-implementation/Linux# ./main.py -sS 127.0.0.1 -p 130-140
+Сканирование начато в 00-00-2023 00:00 REG City
+
+130/tcp фильтруемый cisco-fna
+131/tcp фильтруемый cisco-tna
+132/tcp фильтруемый cisco-sys
+133/tcp фильтруемый statsrv
+134/tcp фильтруемый ingres-net
+135/tcp открыт      msrpc
+136/tcp фильтруемый profile
+137/tcp фильтруемый netbios-ns
+138/tcp фильтруемый netbios-dgm
+139/tcp открыт      netbios-ssn
+140/tcp фильтруемый emfis-data
+
+MAC-адрес: FF:FF:FF:FF:FF:FF (---)
+
+Сканирование завершилось за 1.37s
+```
