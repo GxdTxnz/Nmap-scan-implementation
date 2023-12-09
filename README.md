@@ -1,3 +1,8 @@
+[Поддерживаемые типы сканирования и доп функции](#поддерживаемые-типы-сканирования-и-доп-функции)
+[Предварительная настройка](#предварительная-настройка)
+[ Использование](#использование)
+[Troubleshooting](#troubleshooting)
+
 # Nmap-scan-implementation
 ## Поддерживаемые типы сканирования и доп функции:
 - `date_reg.py` - функция вывода времени начала сканирования, даты, региона и города
@@ -66,3 +71,20 @@ MAC-адрес: FF:FF:FF:FF:FF:FF (---)
 
 Сканирование завершилось за 1.37s
 ```
+## Troubleshooting
+### Linux
+- __Bad interpreter__:
+В результате запуска программы может возникнуть ошибка
+```bash
+/usr/bin/python3^M: bad interpreter: No such file or directory
+```
+Фикс №1:
+```bash
+sed -i -e 's/\r$//' main.py
+```
+Фикс №2:
+```bash
+sudo apt update && sudo apt install dos2unix
+dos2unix main.py
+```
+ 
