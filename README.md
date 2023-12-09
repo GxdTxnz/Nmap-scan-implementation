@@ -40,6 +40,7 @@ sudo apt install libcairo2-dev pkg-config
 ```bash
 cd Nmap-scan-implementation/Linux/
 chmod 777 *
+sed -i -e 's/\r$//' main.py
 sudo mkdir /usr/share/nmap
 sudo cp ../data/* /usr/share/nmap/
 ```
@@ -65,8 +66,9 @@ sudo apt install libcairo2-dev pkg-config
 ``` 
 Перейдите в директорию `Nmap-scan-implementation/`. Раздайте права на файлы. Создайте директорию `/usr/share/nmap/`, а потом скопируйте файлы из `../data` в `/usr/share/nmap/`:
 ```bash
-cd Nmap-scan-implementation/Linux/
+cd Nmap-scan-implementation/Debian/
 chmod 777 *
+sed -i -e 's/\r$//' main.py
 sudo mkdir /usr/share/nmap
 sudo cp ../data/* /usr/share/nmap/
 ```
@@ -109,20 +111,5 @@ MAC-адрес: FF:FF:FF:FF:FF:FF (---)
 ```
 ## Troubleshooting
 ### Linux
-- __Bad interpreter__:
-
-В результате запуска программы может возникнуть ошибка
-```bash
-/usr/bin/python3^M: bad interpreter: No such file or directory
-```
-Фикс №1:
-```bash
-sed -i -e 's/\r$//' main.py
-```
-Фикс №2:
-```bash
-sudo apt update && sudo apt install dos2unix
-dos2unix main.py
-```
  
 ### Windows
