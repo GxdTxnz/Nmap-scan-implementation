@@ -35,6 +35,7 @@ sudo apt install wget software-properties-common
 apt-get install build-essential
 apt install python3
 sudo apt install python3-pip
+sudo apt-get install gcc python3.10-dev libkrb5-dev
 ``` 
 Перейдите в директорию `Nmap-scan-implementation/`. Раздайте права на файлы. Создайте директорию `/usr/share/nmap/`, а потом скопируйте файлы из `../data` в `/usr/share/nmap/`:
 ```bash
