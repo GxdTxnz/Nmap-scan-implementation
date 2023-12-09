@@ -42,8 +42,8 @@ sudo apt install libcairo2-dev pkg-config
 ```bash
 cd Nmap-scan-implementation/Linux/
 chmod 777 *
-mkdir /usr/share/nmap
-cp ../data/* /usr/share/nmap/
+sudo mkdir /usr/share/nmap
+sudo cp ../data/* /usr/share/nmap/
 ```
 Установите библиотеки из reqs_Linux.txt
 ```bash
