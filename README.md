@@ -27,15 +27,16 @@
 pip3 install -r reqs_Windows.txt
 ```
 ### Linux(Debian):
-Установите python версии 3.10 или выше, pip3
+Установите python версии 3.10 или выше, pip3 и некоторые необходимые пакеты
 ```bash
 sudo apt update
 sudo apt upgrade
 sudo apt install wget software-properties-common
-apt-get install build-essential
-apt install python3
+sudo apt-get install build-essential
+sudo apt install python3
 sudo apt install python3-pip
 sudo apt-get install gcc python3.10-dev libkrb5-dev
+sudo apt install libcairo2-dev pkg-config
 ``` 
 Перейдите в директорию `Nmap-scan-implementation/`. Раздайте права на файлы. Создайте директорию `/usr/share/nmap/`, а потом скопируйте файлы из `../data` в `/usr/share/nmap/`:
 ```bash
