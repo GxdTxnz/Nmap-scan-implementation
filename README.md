@@ -26,7 +26,7 @@
 ```shell
 pip3 install -r reqs_Windows.txt
 ```
-### Linux(Debian):
+### Debian:
 Установите python версии 3.10 или выше, pip3 и некоторые необходимые пакеты
 ```bash
 sudo apt update
