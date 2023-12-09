@@ -5,8 +5,8 @@
 - [Использование](#использование)
 
 - [Troubleshooting](#troubleshooting)
-  - [Linux](#linux)
-  - [Windows](#windows)
+  - [Linux](#linux-1)
+  - [Windows](#windows-1)
 
 # Nmap-scan-implementation
 ## Поддерживаемые типы сканирования и доп функции:
