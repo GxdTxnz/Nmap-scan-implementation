@@ -80,6 +80,7 @@ MAC-адрес: FF:FF:FF:FF:FF:FF (---)
 ```
 ## Troubleshooting
 ### Linux
+
 - __Bad interpreter__:
 В результате запуска программы может возникнуть ошибка
 ```bash
