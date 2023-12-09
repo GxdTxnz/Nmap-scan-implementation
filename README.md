@@ -31,8 +31,6 @@ pip3 install -r reqs_Windows.txt
 ```bash
 sudo apt update
 sudo apt upgrade
-sudo apt install wget software-properties-common
-sudo apt-get install build-essential
 sudo apt install python3
 sudo apt install python3-pip
 sudo apt-get install gcc python3.10-dev libkrb5-dev
@@ -49,10 +47,37 @@ sudo cp ../data/* /usr/share/nmap/
 ```bash
 sudo pip3 install -r reqs_Linux.txt
 ```
+Чтобы иметь возможность запустить сканирование из любой директории, создадим ссылку в `/usr/bin`
+```bash
+sudo ln -s /path/to/Nmap-scan-implementation/Linux/main.py /usr/bin/scan
+```
 ### Ubuntu:
 
-__Настройка аналогична настройке для Debian__
-## Использование:
+Установите python версии 3.10 или выше, pip3 и некоторые необходимые пакеты
+```bash
+sudo apt update
+sudo apt upgrade
+sudo apt install python3
+sudo apt install python3-pip
+sudo apt-get install gcc python3.10-dev libkrb5-dev
+sudo apt install libcairo2-dev pkg-config
+``` 
+Перейдите в директорию `Nmap-scan-implementation/`. Раздайте права на файлы. Создайте директорию `/usr/share/nmap/`, а потом скопируйте файлы из `../data` в `/usr/share/nmap/`:
+```bash
+cd Nmap-scan-implementation/Linux/
+chmod 777 *
+sudo mkdir /usr/share/nmap
+sudo cp ../data/* /usr/share/nmap/
+```
+Установите библиотеки из reqs_Linux.txt
+```bash
+sudo pip3 install -r reqs_Linux.txt
+```
+Чтобы иметь возможность запустить сканирование из любой директории, создадим ссылку в `/usr/bin`
+```bash
+sudo ln -s /path/to/Nmap-scan-implementation/Linux/main.py /usr/bin/scan
+```
+## Использование
 ### Windows:
 
 ### Linux:
@@ -61,7 +86,7 @@ main.py [-h] [-p PORTS] [-s {S,T,A,U,Y,Z}] target_host
 ```
 Пример:
 ```bash
-root@root:/Nmap-scan-implementation/Linux# ./main.py -sS 127.0.0.1 -p 130-140
+user@user:/Nmap-scan-implementation/Linux# sudo scan -sS 127.0.0.1 -p 130-140
 Сканирование начато в 00-00-2023 00:00 REG City
 
 130/tcp фильтруемый cisco-fna
