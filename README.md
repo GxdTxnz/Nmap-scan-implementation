@@ -47,7 +47,7 @@ sudo cp ../data/* /usr/share/nmap/
 ```
 Установите библиотеки из reqs_Linux.txt
 ```bash
-pip3 install -r reqs_Linux.txt
+sudo pip3 install -r reqs_Linux.txt
 ```
 ### Ubuntu:
 
