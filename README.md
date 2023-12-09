@@ -51,8 +51,9 @@ pip3 install -r reqs_Linux.txt
 
 __Настройка аналогична настройке для Debian__
 ## Использование:
-- Windows:
-- Linux:
+### Windows:
+
+### Linux:
 ```bash
 main.py [-h] [-p PORTS] [-s {S,T,A,U,Y,Z}] target_host
 ```
