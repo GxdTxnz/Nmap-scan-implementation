@@ -5,6 +5,8 @@
 - [Использование](#использование)
 
 - [Troubleshooting](#troubleshooting)
+  - [Linux](#linux)
+  - [Windows](#windows)
 
 # Nmap-scan-implementation
 ## Поддерживаемые типы сканирования и доп функции:
@@ -91,3 +93,4 @@ sudo apt update && sudo apt install dos2unix
 dos2unix main.py
 ```
  
+### Windows
