@@ -49,7 +49,8 @@ sudo pip3 install -r reqs_Linux.txt
 ```
 Чтобы иметь возможность запустить сканирование из любой директории, создадим ссылку в `/usr/bin`
 ```bash
-sudo ln -s /path/to/Nmap-scan-implementation/Linux/main.py /usr/bin/scan
+cd /usr/bin/
+sudo ln -s /path/to/Nmap-scan-implementation/Linux/main.py nscan
 ```
 ### Ubuntu:
 
@@ -75,7 +76,8 @@ sudo pip3 install -r reqs_Linux.txt
 ```
 Чтобы иметь возможность запустить сканирование из любой директории, создадим ссылку в `/usr/bin`
 ```bash
-sudo ln -s /path/to/Nmap-scan-implementation/Linux/main.py /usr/bin/scan
+cd /usr/bin/
+sudo ln -s /path/to/Nmap-scan-implementation/Linux/main.py nscan
 ```
 ## Использование
 ### Windows:
@@ -86,7 +88,7 @@ main.py [-h] [-p PORTS] [-s {S,T,A,U,Y,Z}] target_host
 ```
 Пример:
 ```bash
-user@user:/Nmap-scan-implementation/Linux# sudo scan -sS 127.0.0.1 -p 130-140
+user@user:/Nmap-scan-implementation/Linux# sudo nscan -sS 127.0.0.1 -p 130-140
 Сканирование начато в 00-00-2023 00:00 REG City
 
 130/tcp фильтруемый cisco-fna
