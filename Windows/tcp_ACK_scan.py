@@ -6,7 +6,7 @@ from service import *
 def tcp_ack_scan(target_host, port):
 
     ip_packet = IP(dst=target_host)
-    tcp_packet = TCP(dport=port, flags="A")
+    tcp_packet = TCP(dport=port, flags="A", sport=RandShort())
     packet = ip_packet / tcp_packet
     response = sr1(packet, timeout=1, verbose=0)
     service = guess_service(target_host, port)
