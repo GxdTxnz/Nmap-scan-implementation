@@ -1,5 +1,4 @@
 from scapy.all import *
-from params import *
 
 def load_nmap_mac_prefixes():
     nmap_services = {}
