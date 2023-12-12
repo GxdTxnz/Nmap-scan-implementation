@@ -1,5 +1,5 @@
 from scapy.all import *
-from params import *
+from termcolor import colored
 from service import *
 
 
