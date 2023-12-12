@@ -1,5 +1,5 @@
 from scapy.all import *
-from termcolor import colored
+from params import *
 from service import *
 
 
@@ -17,10 +17,10 @@ def tcp_ack_scan(target_host, port):
         if response.haslayer(TCP) and response.getlayer(TCP).flags == 0x14:
             result = f"{port}/tcp {colored('нефильтруемый', 'green')} {service}"
         elif response.haslayer(ICMP) and response.getlayer(ICMP).type == 3 and response.getlayer(ICMP).code in [1, 2, 3, 9, 10, 13]:
-            result = f"{port}/tcp {colored('фильтруемый', 'yellow')}   {service}"
+            result = f"{port}/tcp {colored('фильтруемый', 'red')}   {service}"
         else:
             result = f"{port}/tcp {colored('нефильтруемый', 'green')} {service}"
     else:
-        result = f"{port}/tcp {colored('фильтруемый', 'yellow')}   {service}"
+        result = f"{port}/tcp {colored('фильтруемый', 'red')}   {service}"
 
     return result

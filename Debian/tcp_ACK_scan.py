@@ -2,6 +2,7 @@ from scapy.all import *
 from params import *
 from service import *
 
+
 def tcp_ack_scan(target_host, port):
 
     ip_packet = IP(dst=target_host)
@@ -14,12 +15,12 @@ def tcp_ack_scan(target_host, port):
 
     if response is not None:
         if response.haslayer(TCP) and response.getlayer(TCP).flags == 0x14:
-            result = f"{port}/tcp нефильтруемый {service}"
+            result = f"{port}/tcp {colored('нефильтруемый', 'green')} {service}"
         elif response.haslayer(ICMP) and response.getlayer(ICMP).type == 3 and response.getlayer(ICMP).code in [1, 2, 3, 9, 10, 13]:
-            result = f"{port}/tcp фильтруемый   {service}"
+            result = f"{port}/tcp {colored('фильтруемый', 'red')}   {service}"
         else:
-            result = f"{port}/tcp нефильтруемый {service}"
+            result = f"{port}/tcp {colored('нефильтруемый', 'green')} {service}"
     else:
-        result = f"{port}/tcp фильтруемый   {service}"
+        result = f"{port}/tcp {colored('фильтруемый', 'red')}   {service}"
 
     return result

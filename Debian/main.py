@@ -58,8 +58,6 @@ def main():
         print("Укажите порт(-ы) используя ключ -p\n")
         return
 
-    c = 0
-
     target_ports = parse_ports(args.ports)
     date_and_time()
     start_time = time.time()
@@ -87,7 +85,6 @@ def main():
     else:
         print("Выберите тип сканирования из доступных")
 
-
     end_time = time.time()
     elapsed_time = end_time - start_time
 
@@ -96,4 +93,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-
