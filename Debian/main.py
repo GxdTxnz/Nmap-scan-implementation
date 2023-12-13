@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import argparse
-import multiprocessing
 from concurrent.futures import ThreadPoolExecutor
 from collections import Counter
 from tcp_ACK_scan import *
