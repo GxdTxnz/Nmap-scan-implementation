@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import argparse
-import multiprocessing
 from concurrent.futures import ThreadPoolExecutor
 from collections import Counter
 from tcp_ACK_scan import *
@@ -13,6 +12,7 @@ from sctp_COOKIE_scan import *
 from mac import *
 from params import *
 from date_reg import *
+from subnet import scan_subnet
 
 SCAN_FUNCTIONS = {
     'S': tcp_syn_scan,
@@ -51,14 +51,16 @@ def main():
     parser.add_argument("target_host")
     parser.add_argument("-p", "--ports")
     parser.add_argument("-s", "--scan_type", choices=SCAN_FUNCTIONS.keys())
+    parser.add_argument("-sn", "--subnet_scan", action="store_true")
 
     args = parser.parse_args()
 
-    if not args.ports:
-        print("Укажите порт(-ы) используя ключ -p\n")
+    if args.subnet_scan:
+        live_hosts = scan_subnet(args.target_host)
+        print("Хосты в состоянии UP в подсети:")
+        for host in live_hosts:
+            print(host)
         return
-
-    c = 0
 
     target_ports = parse_ports(args.ports)
     date_and_time()
