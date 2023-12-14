@@ -11,8 +11,6 @@ def icmp_ping(target_host):
     if response is not None:
         if response.haslayer(ICMP) and response[ICMP].type == 0:
             result = f"Хост {target_host} в сети" 
-        else:
-            resul = f"_"
     else:
         resul = f"_"
         
