@@ -6,9 +6,9 @@ import logging
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 def icmp_ping(host):
-
     conf.verb = 0
     icmp_request = IP(dst=host)/ICMP()
+    
     try:
         response = sr1(icmp_request, timeout=1, verbose=0)
         if response and response.haslayer(ICMP) and response[ICMP].type == 0:
