@@ -6,7 +6,6 @@ from concurrent.futures import ThreadPoolExecutor
 from collections import Counter
 from ipaddress import ip_interface
 import logging
-from scapy.all import *
 from tcp_ACK_scan import *
 from tcp_CON_scan import *
 from tcp_SYN_scan import *
@@ -18,7 +17,6 @@ from params import *
 from date_reg import *
 from subnet import *
 
-
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 SCAN_FUNCTIONS = {
@@ -29,6 +27,7 @@ SCAN_FUNCTIONS = {
     'Y': sctp_init_scan,
     'Z': sctp_ce_scan
 }
+
 
 def parse_ports(port_arg):
     ports = []
@@ -42,6 +41,7 @@ def parse_ports(port_arg):
             ports.append(int(port_range))
     return ports
 
+
 def scan_single_port(args):
     global scanned_ports_count
 
@@ -49,6 +49,7 @@ def scan_single_port(args):
     result = scan_function(target_host, port)
     scanned_ports_count += 1
     return result
+
 
 def main():
     parser = argparse.ArgumentParser(description="")
@@ -63,7 +64,6 @@ def main():
     start_time = time.time()
 
     if args.subnet_scan:
-        live_hosts = []
         network = ip_interface(args.target_host).network
 
         with ThreadPoolExecutor() as executor:
