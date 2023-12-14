@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import argparse
-import time
 from concurrent.futures import ThreadPoolExecutor
 from collections import Counter
 from ipaddress import ip_interface
@@ -113,4 +112,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-    
