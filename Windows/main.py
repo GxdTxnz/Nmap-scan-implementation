@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 
 import argparse
+import time
 from concurrent.futures import ThreadPoolExecutor
 from collections import Counter
+from ipaddress import ip_interface
+import logging
+from scapy.all import *
 from tcp_ACK_scan import *
 from tcp_CON_scan import *
 from tcp_SYN_scan import *
@@ -14,6 +18,9 @@ from params import *
 from date_reg import *
 from subnet import *
 
+
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+
 SCAN_FUNCTIONS = {
     'S': tcp_syn_scan,
     'T': tcp_connect_scan,
@@ -22,7 +29,6 @@ SCAN_FUNCTIONS = {
     'Y': sctp_init_scan,
     'Z': sctp_ce_scan
 }
-
 
 def parse_ports(port_arg):
     ports = []
@@ -36,7 +42,6 @@ def parse_ports(port_arg):
             ports.append(int(port_range))
     return ports
 
-
 def scan_single_port(args):
     global scanned_ports_count
 
@@ -44,7 +49,6 @@ def scan_single_port(args):
     result = scan_function(target_host, port)
     scanned_ports_count += 1
     return result
-
 
 def main():
     parser = argparse.ArgumentParser(description="")
@@ -55,45 +59,57 @@ def main():
 
     args = parser.parse_args()
 
-    if args.subnet_scan:
-        live_hosts = scan_subnet(args.target_host)
-        print("Хосты в состоянии UP в подсети:")
-        for host in live_hosts:
-            print(host)
-        return
-
-    target_ports = parse_ports(args.ports)
     date_and_time()
     start_time = time.time()
 
-    if args.scan_type:
-        args_list = [(args.target_host, port, SCAN_FUNCTIONS[args.scan_type]) for port in target_ports]
-        with ThreadPoolExecutor(max_workers=len(target_ports)) as executor:
-            results = list(executor.map(scan_single_port, args_list))
+    if args.subnet_scan:
+        live_hosts = []
+        network = ip_interface(args.target_host).network
 
-        if len(target_ports) >= 27:
-            status_counts = Counter(result.split()[1] for result in results)
-            most_common_status = status_counts.most_common(1)[0][0]
+        with ThreadPoolExecutor() as executor:
+            results = list(executor.map(lambda host: icmp_ping(str(host)), network.hosts()))
 
-            for result in results:
-                status = result.split()[1]
-                if status != most_common_status:
+        for result in results:
+            host, status = result
+            if status == "Up":
+                live_hosts.append(host)
+
+        print("Хосты в состоянии UP в подсети:")
+        for host in live_hosts:
+            print(host)
+        
+    else:
+        target_ports = parse_ports(args.ports)
+
+        if args.scan_type:
+            args_list = [(args.target_host, port, SCAN_FUNCTIONS[args.scan_type]) for port in target_ports]
+            with ThreadPoolExecutor(max_workers=len(target_ports)) as executor:
+                results = list(executor.map(scan_single_port, args_list))
+
+            if len(target_ports) >= 27:
+                status_counts = Counter(result.split()[1] for result in results)
+                most_common_status = status_counts.most_common(1)[0][0]
+
+                for result in results:
+                    status = result.split()[1]
+                    if status != most_common_status:
+                        print(result)
+
+                print(f"Было скрыто: {status_counts[most_common_status]} портов с состоянием {most_common_status}")
+
+            else:
+                for result in results:
                     print(result)
 
-            print(f"Было скрыто: {status_counts[most_common_status]} портов с состоянием {most_common_status}")
-
         else:
-            for result in results:
-                print(result)
+            print("Выберите тип сканирования из доступных")
 
-    else:
-        print("Выберите тип сканирования из доступных")
-
+        get_mac_address(args.target_host)
+    
     end_time = time.time()
     elapsed_time = end_time - start_time
-
-    get_mac_address(args.target_host)
     print(f"\nСканирование завершилось за {elapsed_time:.2f}s")
+    
     
 if __name__ == "__main__":
     main()
