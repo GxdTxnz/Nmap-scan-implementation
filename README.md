@@ -87,7 +87,7 @@ sudo ln -s /path/to/Nmap-scan-implementation/Linux/main.py nscan
 
 ### Linux:
 ```bash
-main.py [-h] [-p PORTS] [-s {S,T,A,U,Y,Z}] target_host
+main.py [-h] [-p PORTS] [-s {S,T,A,U,Y,Z}] [-sn] target_host
 ```
 Пример:
 ```bash
