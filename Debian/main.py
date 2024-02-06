@@ -59,14 +59,6 @@ def main():
 
     args = parser.parse_args()
 
-<<<<<<< HEAD
-    if not args.ports:
-        print("Укажите порт(-ы) используя ключ -p\n")
-        return
-
-    target_ports = parse_ports(args.ports)
-=======
->>>>>>> subnet
     date_and_time()
     start_time = time.time()
 
@@ -109,19 +101,10 @@ def main():
                     print(result)
 
         else:
-<<<<<<< HEAD
-            for result in results:
-                print(result)
-
-    else:
-        print("Выберите тип сканирования из доступных")
-
-=======
             print("Выберите тип сканирования из доступных")
 
         get_mac_address(args.target_host)
     
->>>>>>> subnet
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"\nСканирование завершилось за {elapsed_time:.2f}s")
@@ -129,3 +112,4 @@ def main():
     
 if __name__ == "__main__":
     main()
+    
