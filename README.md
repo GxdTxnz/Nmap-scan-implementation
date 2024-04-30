@@ -29,60 +29,19 @@
 pip3 install -r reqs_Windows.txt
 ```
 ### Debian:
-Установите python версии 3.10 или выше, pip3 и некоторые необходимые пакеты
 ```bash
-sudo apt update
-sudo apt upgrade
-sudo apt install python3
-sudo apt install python3-pip
-sudo apt-get install gcc python3.10-dev libkrb5-dev
-sudo apt install libcairo2-dev pkg-config
-``` 
-Перейдите в директорию `Nmap-scan-implementation/`. Раздайте права на файлы. Создайте директорию `/usr/share/nmap/`, а потом скопируйте файлы из `../data` в `/usr/share/nmap/`:
-```bash
-cd Nmap-scan-implementation/Linux/
+sudo apt install whiptail
 chmod 777 *
-sed -i -e 's/\r$//' main.py
-sudo mkdir /usr/share/nmap
-sudo cp ../data/* /usr/share/nmap/
+./install_packages.sh
 ```
-Установите библиотеки из reqs_Linux.txt
-```bash
-sudo pip3 install -r reqs_Debian.txt
-```
-Чтобы иметь возможность запустить сканирование из любой директории, создадим ссылку в `/usr/bin`
-```bash
-cd /usr/bin/
-sudo ln -s /path/to/Nmap-scan-implementation/Linux/main.py nscan
-```
-### Ubuntu:
 
-Установите python версии 3.10 или выше, pip3 и некоторые необходимые пакеты
+### Ubuntu:
 ```bash
-sudo apt update
-sudo apt upgrade
-sudo apt install python3
-sudo apt install python3-pip
-sudo apt-get install gcc python3.10-dev libkrb5-dev
-sudo apt install libcairo2-dev pkg-config
-``` 
-Перейдите в директорию `Nmap-scan-implementation/`. Раздайте права на файлы. Создайте директорию `/usr/share/nmap/`, а потом скопируйте файлы из `../data` в `/usr/share/nmap/`:
-```bash
-cd Nmap-scan-implementation/Debian/
+sudo apt install whiptail
 chmod 777 *
-sed -i -e 's/\r$//' main.py
-sudo mkdir /usr/share/nmap
-sudo cp ../data/* /usr/share/nmap/
+./install_packages.sh
 ```
-Установите библиотеки из reqs_Linux.txt
-```bash
-sudo pip3 install -r reqs_Linux.txt
-```
-Чтобы иметь возможность запустить сканирование из любой директории, создадим ссылку в `/usr/bin`
-```bash
-cd /usr/bin/
-sudo ln -s /path/to/Nmap-scan-implementation/Linux/main.py nscan
-```
+
 ## Использование
 ### Windows:
 
@@ -110,11 +69,4 @@ user@user:/Nmap-scan-implementation/Linux# sudo nscan -sS 127.0.0.1 -p 130-140
 MAC-адрес: FF:FF:FF:FF:FF:FF (---)
 
 Сканирование завершилось за 1.37s
-```
-## Идеи для доработки
-__пока никаких__
-## Troubleshooting
-### Linux
-- 
-### Windows
-- 
+``` 
