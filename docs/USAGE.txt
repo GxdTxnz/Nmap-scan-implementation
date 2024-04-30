@@ -1,0 +1,22 @@
+Доступные команды:
+  nscan [-h] [-p PORTS] [-s {S,T,A,U,Y,Z}] [-sn] target_host
+
+Пример использования:
+  user@user:~/# sudo nscan -sS 127.0.0.1 -p 130-140
+  Сканирование начато в 00-00-2023 00:00 REG City
+
+  130/tcp фильтруемый cisco-fna
+  131/tcp фильтруемый cisco-tna
+  132/tcp фильтруемый cisco-sys
+  133/tcp фильтруемый statsrv
+  134/tcp фильтруемый ingres-net
+  135/tcp открыт      msrpc
+  136/tcp фильтруемый profile
+  137/tcp фильтруемый netbios-ns
+  138/tcp фильтруемый netbios-dgm
+  139/tcp открыт      netbios-ssn
+  140/tcp фильтруемый emfis-data
+
+  MAC-адрес: FF:FF:FF:FF:FF:FF (---)
+
+  Сканирование завершилось за 1.37s
