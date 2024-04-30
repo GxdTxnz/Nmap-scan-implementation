@@ -47,7 +47,7 @@ chmod 777 *
 
 ### Linux:
 ```bash
-main.py [-h] [-p PORTS] [-s {S,T,A,U,Y,Z}] [-sn] target_host
+nscan [-h] [-p PORTS] [-s {S,T,A,U,Y,Z}] [-sn] target_host
 ```
 Пример:
 ```bash
