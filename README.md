@@ -23,6 +23,7 @@
 ## Предварительная настройка
 ### Windows:
 Установите python версии 3.10 или выше, pip3
+
 Установите библиотеки из reqs_Windows.txt:
 ```shell
 pip3 install -r reqs_Windows.txt
