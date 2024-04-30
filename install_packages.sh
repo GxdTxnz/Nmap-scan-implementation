@@ -75,7 +75,7 @@ install_python_packages()
         fi
         sudo ln -sf "$os_dir/Ubuntu/main.py" /usr/bin/nscan
         echo "Настройка завершена"
-        cat "$os_dir/docs/USAGE_eng.txt"
+        cat "$os_dir/docs/USAGE.txt"
         ;;
       Debian)
         echo "Установка пакетов для Debian..."
@@ -90,7 +90,7 @@ install_python_packages()
         fi
         sudo ln -sf "$os_dir/Debian/main.py" /usr/bin/nscan
         echo "Настройка завершена"
-        cat "$os_dir/docs/USAGE_eng.txt"
+        cat "$os_dir/docs/USAGE.txt"
         ;;
       *)
         echo "Отмена установки"
@@ -117,4 +117,3 @@ main()
 }
 
 main
-
