@@ -17,7 +17,9 @@ install_packages()
   fi
   sudo apt update
   sudo apt upgrade -y
-  sudo apt install -y python3 python3-pip gcc python3.10-dev libkrb5-dev libcairo2-dev pkg-config
+  sudo add-apt-repository ppa:deadsnakes/ppa -y
+  sudo apt upgrade -y
+  sudo apt install -y python3.11 python3-pip gcc python3.11-dev libkrb5-dev libcairo2-dev pkg-config
 }
 
 install_python_packages()
