@@ -28,6 +28,9 @@
 ```shell
 pip3 install -r reqs_Windows.txt
 ```
+
+Поместить файлы `nmap-services` и `nmap-mac-prefixes` в директорию `C:/Users/` (при выборе другой директории - изменить путь в файлах `mac.py` и `service.py`)
+
 ### Debian:
 ```bash
 sudo apt install whiptail
