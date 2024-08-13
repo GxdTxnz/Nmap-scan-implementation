@@ -3,7 +3,7 @@ from scapy.all import *
 def load_nmap_mac_prefixes():
     nmap_services = {}
     try:
-        with open('C:/Users/777/Desktop/Nmap-scan-implementation/data/nmap-mac-prefixes', 'r') as file:
+        with open('C:/Users/nmap-mac-prefixes', 'r') as file:
             for line in file:
                 if not line or ' ' not in line:
                     continue
