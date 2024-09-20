@@ -46,7 +46,8 @@ install_python_packages()
         ;;
       Debian)
         echo "Installing packages for Debian..."
-        sudo pip3 install -r "$os_dir/Debian/reqs_$os_choice.txt"
+        sudo pip3 install -r "$os_dir/Debian/reqs_$os_choice.txt" --break-system-packages
+        clear
         echo "Configuring auxiliary files..."
         chmod 777 "$os_dir/Debian/"
         sed -i -e 's/\r$//' "$os_dir/Debian/main.py"
@@ -81,7 +82,7 @@ install_python_packages()
         ;;
       Debian)
         echo "Установка пакетов для Debian..."
-        sudo pip3 install -r "$os_dir/Debian/reqs_$os_choice.txt"
+        sudo pip3 install -r "$os_dir/Debian/reqs_$os_choice.txt" --break-system-packages
         clear
         echo "Настройка вспомогательных файлов..."
         chmod 777 "$os_dir/Debian/"
