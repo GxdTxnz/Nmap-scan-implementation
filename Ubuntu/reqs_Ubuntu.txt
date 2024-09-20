@@ -68,8 +68,8 @@ systemd-python
 termcolor
 timezonefinder
 Twisted
-ubuntu-advantage-tools
-ubuntu-drivers-common
+ubuntu-advantage-tools==8001
+ubuntu-drivers-common==0.0.0
 ufw
 unattended-upgrades
 urllib3
